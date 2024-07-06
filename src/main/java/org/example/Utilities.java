@@ -20,7 +20,7 @@ interface MyConstants
 
     //----- Sizes and locations
     static final int FRAMEWIDTH   = 1000;
-    static final int FRAMEHEIGHT  = 500;
+    static final int FRAMEHEIGHT  = 600;
     static final int GROUND_Y     = 220;
     static final int SKY_Y        = 50;
     static final int BRIDGE_LEFT  = 340;
