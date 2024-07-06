@@ -14,7 +14,7 @@ interface MyConstants
     static final String FILE_BG     = PATH + "Background.png";
    static final String FILE_CAT_1  = PATH + "cat.png";
     static final String FILE_CAT_2  = PATH + "catwing.png";
-    static final String FILE_DOG_1  = PATH + "dog.png";
+    static final String FILE_DOG_1  = PATH + "crossbow.png";
     static final String FILE_DOG_2  = PATH + "dogwing.png";
     static final String FILE_WING   = PATH + "wing.png";
 
