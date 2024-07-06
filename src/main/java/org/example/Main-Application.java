@@ -40,18 +40,12 @@ class MainApplication extends JFrame implements KeyListener
                 120, 100, this);
         petLabels[0].setMoveConditions(bridgeLeftX-120, groundY, true, false);
 
-        petLabels[1] = new CharacterLabel(MyConstants.FILE_CAT_1, MyConstants.FILE_CAT_2,
-                120, 100, this);
-        petLabels[1].setMoveConditions(bridgeRightX, groundY, true, false);
-
         wingLabel = new ItemLabel(MyConstants.FILE_WING, 100, 80, this);
         wingLabel.setMoveConditions(bridgeRightX+300, skyY, true, true);
-
 
         // first added label is at the front, last added label is at the back
         contentpane.add( wingLabel );
         contentpane.add( petLabels[0] );
-        contentpane.add( petLabels[1] );
 
         setDog();
         repaint();
@@ -61,7 +55,6 @@ class MainApplication extends JFrame implements KeyListener
 
     public CharacterLabel getActiveLabel()  { return activeLabel; }
     public void setDog()                    { activeLabel = petLabels[0]; setTitle("Dog is active"); }
-    public void setCat()                    { activeLabel = petLabels[1]; setTitle("Cat is active"); }
 
     public ItemLabel getWings(){
         return wingLabel;
@@ -73,9 +66,7 @@ class MainApplication extends JFrame implements KeyListener
             case 'd' :
                 setDog();
                 break;
-            case 'c' :
-                setCat();
-                break;
+
             case 'j':
                 if(!getActiveLabel().isHasWings()){
                     getActiveLabel().jump();
@@ -88,12 +79,6 @@ class MainApplication extends JFrame implements KeyListener
                 break;
             case KeyEvent.VK_DOWN:
                 getActiveLabel().moveDown();
-                break;
-            case KeyEvent.VK_LEFT:
-                getActiveLabel().moveLeft();
-                break;
-            case KeyEvent.VK_RIGHT:
-                getActiveLabel().moveRight();
                 break;
             case KeyEvent.VK_ESCAPE:
                 getActiveLabel().removeWings();
@@ -166,38 +151,20 @@ class CharacterLabel extends BaseLabel
         }
     }
     public void moveUp(){
-        if(hasWings){this.curY -= 20;
-            if(this.curY <= - 20){
-                this.curY = MyConstants.FRAMEHEIGHT - 120;
-            }
-        }
-        else return;
+        this.curY -= 10;
+        if(this.curY <= 0)
+            this.curY = MyConstants.FRAMEWIDTH - 120;
         updateLocation();
     }
 
-    public void moveDown(){if(hasWings){
-        this.curY += 20;
-        if(this.curY >= MyConstants.FRAMEHEIGHT - 120){
+    public void moveDown(){
+        this.curY += 10;
+        if(this.curY >= MyConstants.FRAMEWIDTH - 120)
             this.curY = 0;
-        }
-    }
-    else return;
         updateLocation();
     }
-    private boolean facingLeft = true;
-    public void moveLeft(){
-        this.curX -= 10;
-        facingLeft = true;
-        if(this.curX <= 0)
-            this.curX = MyConstants.FRAMEWIDTH - 120;
-        updateLocation();
-    }
-    public void moveRight(){
-        this.curX += 10;
-        if(this.curX >= MyConstants.FRAMEWIDTH - 120)
-            this.curX = 0;
-        updateLocation();
-    }
+    // private boolean facingLeft = true;
+
     public void jump(){
         if(this.curX < MyConstants.BRIDGE_LEFT-110)
             this.curX = MyConstants.BRIDGE_RIGHT+20;
