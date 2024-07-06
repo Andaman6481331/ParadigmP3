@@ -37,8 +37,8 @@ class MainApplication extends JFrame implements KeyListener
 
         petLabels = new CharacterLabel[2];
         petLabels[0] = new CharacterLabel(MyConstants.FILE_DOG_1, MyConstants.FILE_DOG_2,
-                120, 100, this);
-        petLabels[0].setMoveConditions(bridgeLeftX-120, groundY, true, false);
+                100, 100, this);
+        petLabels[0].setMoveConditions(bridgeLeftX, groundY, true, false);   //X:150 Y:220
 
         wingLabel = new ItemLabel(MyConstants.FILE_WING, 100, 80, this);
         wingLabel.setMoveConditions(bridgeRightX+300, skyY, true, true);
@@ -74,10 +74,10 @@ class MainApplication extends JFrame implements KeyListener
                 }
         }
         switch (e.getKeyCode()){
-            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
                 getActiveLabel().moveUp();
                 break;
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
                 getActiveLabel().moveDown();
                 break;
             case KeyEvent.VK_ESCAPE:
@@ -146,21 +146,23 @@ class CharacterLabel extends BaseLabel
 
     public void updateLocation()    {
         setLocation(curX,curY);
-        if(this.wings != null){
-            wings.setLocation(curX + width / 2 - wings.getWidth() / 2, curY - wings.getHeight() / 2);
-        }
     }
     public void moveUp(){
-        this.curY -= 10;
-        if(this.curY <= 0)
-            this.curY = MyConstants.FRAMEWIDTH - 120;
+        if(this.curY == 220) {
+            this.curY = 40;
+        } else if (this.curY == 400) {
+            this.curY = 220;
+        };
         updateLocation();
     }
 
     public void moveDown(){
-        this.curY += 10;
-        if(this.curY >= MyConstants.FRAMEWIDTH - 120)
-            this.curY = 0;
+        if(this.curY == 220) {
+            this.curY = 400;
+        } else if (this.curY == 40) {
+            this.curY = 220;
+        };
+
         updateLocation();
     }
     // private boolean facingLeft = true;
