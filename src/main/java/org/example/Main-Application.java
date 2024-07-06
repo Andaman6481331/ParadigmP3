@@ -31,7 +31,7 @@ class MainApplication extends JFrame implements KeyListener
 
         // set background image by using JLabel as contentpane
         setContentPane(contentpane = new JLabel());
-        MyImageIcon background = new MyImageIcon(MyConstants.FILE_BG).resize(framewidth, frameheight);
+        MyImageIcon background = new MyImageIcon(MyConstants.FILE_BG);
         contentpane.setIcon( background );
         contentpane.setLayout( null );
 
