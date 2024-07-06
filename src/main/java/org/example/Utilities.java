@@ -10,7 +10,7 @@ interface MyConstants
 {
     //----- Resource files
     //      Don't forget to change path
-    static final String PATH        = "src/main/java/org.example/resources/";
+    static final String PATH        = "src/main/java/org/example/resources/";
     static final String FILE_BG     = PATH + "background_bridge.jpg";
     static final String FILE_CAT_1  = PATH + "cat.png";
     static final String FILE_CAT_2  = PATH + "catwing.png";

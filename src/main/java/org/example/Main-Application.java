@@ -10,7 +10,6 @@ class MainApplication extends JFrame implements KeyListener
     private CharacterLabel  []petLabels;
     private CharacterLabel  activeLabel;
     private ItemLabel       wingLabel;
-
     private int framewidth   = MyConstants.FRAMEWIDTH;
     private int frameheight  = MyConstants.FRAMEHEIGHT;
     private int groundY      = MyConstants.GROUND_Y;
