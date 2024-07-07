@@ -16,10 +16,15 @@ public class SpriteAnimation extends JPanel implements ActionListener {
     private Timer timer;
     private int frameWidth;
     private int frameHeight;
+    private int moveSpeed;
+    private int  curX, curY;
 
     public SpriteAnimation(String spriteSheetPath, int frameWidth, int frameHeight, int numFrames, int delay) {
+        timer = new Timer(delay, this);
+        timer.start();
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
+        this.moveSpeed = MyConstants.slimeSpeed; // Default speed
         setOpaque(false);
         try {
             spriteSheet = ImageIO.read(new File(spriteSheetPath));
@@ -33,6 +38,27 @@ public class SpriteAnimation extends JPanel implements ActionListener {
             e.printStackTrace();
         }
 
+    }
+    public void updateXY(){
+        setLocation(curX, curY);
+    }
+
+    // Method to set the start position of the slime
+    public void setStartPosition(int x, int y) {
+        curX = x;
+        curY = y;
+        setBounds(x, y, frameWidth, frameHeight);
+    }
+
+    public void startMovement() {
+        timer = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                curX -= moveSpeed; // Adjust curX by moveSpeed each tick
+                updateXY(); // Update the position
+            }
+        });
+        timer.start();
     }
 
     @Override
@@ -49,14 +75,4 @@ public class SpriteAnimation extends JPanel implements ActionListener {
         currentFrame = (currentFrame + 1) % frames.length;
         repaint();
     }
-
-//    public static void main(String[] args) {
-//        JFrame frame = new JFrame("Sprite Animation");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(400, 400);
-//
-//        SpriteAnimationPanel animationPanel = new SpriteAnimationPanel("src/main/java/org/example/resources/Slime01.png", 64, 64, 10, 100);
-//        frame.add(animationPanel);
-//        frame.setVisible(true);
-//    }
 }

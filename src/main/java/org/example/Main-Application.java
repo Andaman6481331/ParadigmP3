@@ -46,16 +46,19 @@ class MainApplication extends JFrame implements KeyListener
         petLabels[0].setMoveConditions(playerX, groundY, true, false);   //X:150 Y:220
 
 //==================================================================initialize slimes==================================================================
-        slime1 = new SpriteAnimation(MyConstants.SLIME, 64, 64, 10,100);
-        slime1.setBounds(slimeX, top_laneY, slimeWidth, slimeHeight);
+        slime1 = new SpriteAnimation(MyConstants.SLIME, 64, 64, 10, 200);
+        slime1.setStartPosition(slimeX, top_laneY);
+        slime1.startMovement();
 
-        slime2 = new SpriteAnimation(MyConstants.SLIME, 64, 64, 10,100);
-        slime2.setBounds(slimeX, middle_laneY, slimeWidth, slimeHeight);
+        slime2 = new SpriteAnimation(MyConstants.SLIME, 64, 64, 10, 200);
+        slime2.setStartPosition(slimeX, middle_laneY);
+        slime2.startMovement();
 
-        slime3 = new SpriteAnimation(MyConstants.SLIME, 64, 64, 10,100);
-        slime3.setBounds(slimeX, bottom_laneY, slimeWidth, slimeHeight);
+        slime3 = new SpriteAnimation(MyConstants.SLIME, 64, 64, 10, 200);
+        slime3.setStartPosition(slimeX, bottom_laneY);
+        slime3.startMovement();
 
-//==================================================================Add to contentpane==================================================================
+        //==================================================================Add to contentpane==================================================================
         // first added label is at the front, last added label is at the back
         contentpane.add(slime1);
         contentpane.add(slime2);
@@ -106,7 +109,6 @@ abstract class BaseLabel extends JLabel
     protected MainApplication  parentFrame;
 
     // Constructors
-    public BaseLabel() { }
     public BaseLabel(String file1, int w, int h, MainApplication pf)
     {
         width = w; height = h;
