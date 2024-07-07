@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.File;
 
-public class SpriteAnimation extends JPanel implements ActionListener {
+public class ArrowAnimation extends JPanel implements ActionListener {
     private BufferedImage spriteSheet;
     private BufferedImage[] frames;
     private int currentFrame;
@@ -18,9 +18,9 @@ public class SpriteAnimation extends JPanel implements ActionListener {
     private int frameHeight;
     private int moveSpeed;
     private int curX, curY;
-    private int wallX;
+    private int wallX = 1000;
 
-    public SpriteAnimation(String spriteSheetPath, int frameWidth, int frameHeight, int numFrames, int delay) {
+    public ArrowAnimation(String spriteSheetPath, int frameWidth, int frameHeight, int numFrames, int delay) {
         timer = new Timer(delay, this);
         timer.start();
         this.frameWidth = frameWidth;
@@ -41,31 +41,29 @@ public class SpriteAnimation extends JPanel implements ActionListener {
         }
     }
 
-
     public void updateXY() {
         setLocation(curX, curY);
     }
-
     public void setStartPosition(int x, int y) {
         curX = x;
         curY = y;
         setBounds(x, y, frameWidth, frameHeight);
     }
 
-    public void startMovement() {
-        timer = new Timer(100, new ActionListener() {
+    public void startMovement_ARROW() {
+        timer = new Timer(50, new ActionListener() {
             private int statecount = 1;
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (curX > wallX) {
+                if (curX < 1000) {
                     if (statecount>12){
                         statecount=0;
                     } else if (statecount>=2 && statecount<=4) {
-                        curY -=moveSpeed*4/3;
-                        curX -= moveSpeed;
+                        curY +=moveSpeed*4/3;
+                        curX += moveSpeed;
                     } else if (statecount>=5 && statecount<=8) {
-                        curY +=moveSpeed*3/3;
-                        curX -= moveSpeed;
+                        curY -=moveSpeed*3/3;
+                        curX += moveSpeed;
                     }
                     statecount++;
                     updateXY();
@@ -73,7 +71,7 @@ public class SpriteAnimation extends JPanel implements ActionListener {
                     // Remove the slime from the parent container and stop the timer
                     Container parent = getParent();
                     if (parent != null) {
-                        parent.remove(SpriteAnimation.this);
+                        parent.remove(ArrowAnimation.this);
                         parent.repaint();
                     }
                     stopMovement(); // Stop the timer
@@ -82,15 +80,12 @@ public class SpriteAnimation extends JPanel implements ActionListener {
         });
         timer.start();
     }
-
-
     public void stopMovement() {
         if (timer != null) {
             timer.stop();
         }
     }
-
-    @Override
+        @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (frames != null && frames.length > 0) {
@@ -98,7 +93,6 @@ public class SpriteAnimation extends JPanel implements ActionListener {
             g2d.drawImage(frames[currentFrame], 0, 0, frameWidth, frameHeight, this);
         }
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         currentFrame = (currentFrame + 1) % frames.length;

@@ -17,6 +17,7 @@ interface MyConstants
     static final String WIZARD = PATH + "IceWizard.png";
     static final String WIZARD_UP = PATH + "IceWizard_Up.png";
     static final String WIZARD_DOWN = PATH + "IceWizard_Down.png";
+    static final String ARROW = PATH + "wing.png";
 
     //----- Sizes and locations
     static final int FRAMEWIDTH   = 1000;

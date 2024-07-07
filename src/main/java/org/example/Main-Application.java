@@ -2,6 +2,7 @@ package org.example;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,6 +24,8 @@ class MainApplication extends JFrame implements KeyListener {
     private int slimeHeight = MyConstants.slimeHeight;
 
     private Timer slimeTimer;
+    private ArrayList<ArrowAnimation> arrows;
+    private ArrayList<SpriteAnimation> slimes;
 
     public static void main(String[] args) {
         new MainApplication();
@@ -55,12 +58,30 @@ class MainApplication extends JFrame implements KeyListener {
         repaint();
         addKeyListener(this);
 
+        arrows = new ArrayList<>();
+        slimes = new ArrayList<>();
+
         // Start generating slimes at random intervals
         startSlimeGeneration();
+
+        // Start a timer to check for collisions
+        Timer collisionTimer = new Timer();
+        collisionTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                checkCollisions();
+            }
+        }, 0, 100);
     }
 
-    public CharacterLabel getActiveLabel() { return activeLabel; }
-    public void setDog() { activeLabel = petLabels[0]; setTitle("Dog is active"); }
+    public CharacterLabel getActiveLabel() {
+        return activeLabel;
+    }
+
+    public void setDog() {
+        activeLabel = petLabels[0];
+        setTitle("Dog is active");
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -75,6 +96,9 @@ class MainApplication extends JFrame implements KeyListener {
                 break;
             case KeyEvent.VK_S:
                 getActiveLabel().moveDown();
+                break;
+            case KeyEvent.VK_SPACE:
+                deployArrow();
                 break;
             case KeyEvent.VK_UP:
                 Wizard.WizardmoveUp();
@@ -99,7 +123,18 @@ class MainApplication extends JFrame implements KeyListener {
         slime.setStartPosition(slimeX, randomLane);
         slime.startMovement();
 
+        slimes.add(slime);
         contentpane.add(slime);
+        contentpane.repaint();
+    }
+
+    private void deployArrow() {
+        ArrowAnimation arrow = new ArrowAnimation(MyConstants.SLIME, slimeWidth, slimeHeight, 5,100);
+        arrow.setStartPosition(getActiveLabel().getX(), getActiveLabel().getY());
+        arrow.startMovement_ARROW();
+
+        arrows.add(arrow);
+        contentpane.add(arrow);
         contentpane.repaint();
     }
 
@@ -118,8 +153,27 @@ class MainApplication extends JFrame implements KeyListener {
             }
         }, randomDelay);
     }
-}
 
+    private void checkCollisions() {
+        for (int i = 0; i < arrows.size(); i++) {
+            ArrowAnimation arrow = arrows.get(i);
+            for (int j = 0; j < slimes.size(); j++) {
+                SpriteAnimation slime = slimes.get(j);
+                if (arrow.getBounds().intersects(slime.getBounds())) {
+                    // Remove arrow and slime from content pane and lists
+                    contentpane.remove(arrow);
+                    contentpane.remove(slime);
+                    arrows.remove(i);
+                    slimes.remove(j);
+                    contentpane.repaint();
+                    i--;
+                    j--;
+                    break;
+                }
+            }
+        }
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 abstract class BaseLabel extends JLabel {
@@ -188,4 +242,3 @@ class CharacterLabel extends BaseLabel {
         updateLocation();
     }
 }
-
