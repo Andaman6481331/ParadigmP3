@@ -18,13 +18,15 @@ public class SpriteAnimation extends JPanel implements ActionListener {
     private int frameHeight;
     private int moveSpeed;
     private int  curX, curY;
+    private int wallX;
 
     public SpriteAnimation(String spriteSheetPath, int frameWidth, int frameHeight, int numFrames, int delay) {
         timer = new Timer(delay, this);
         timer.start();
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
-        this.moveSpeed = MyConstants.slimeSpeed; // Default speed
+        this.moveSpeed = MyConstants.slimeSpeed;
+        this.wallX = MyConstants.wallX;
         setOpaque(false);
         try {
             spriteSheet = ImageIO.read(new File(spriteSheetPath));
@@ -43,7 +45,6 @@ public class SpriteAnimation extends JPanel implements ActionListener {
         setLocation(curX, curY);
     }
 
-    // Method to set the start position of the slime
     public void setStartPosition(int x, int y) {
         curX = x;
         curY = y;
@@ -54,11 +55,20 @@ public class SpriteAnimation extends JPanel implements ActionListener {
         timer = new Timer(500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                curX -= moveSpeed; // Adjust curX by moveSpeed each tick
-                updateXY(); // Update the position
+                if (curX > wallX) {
+                    curX -= moveSpeed; // Adjust curX by moveSpeed each tick
+                    updateXY(); // Update the position
+                } else {
+                    stopMovement(); // Stop the timer when reached the stopping point
+                }
             }
         });
         timer.start();
+    }
+    public void stopMovement() {
+        if (timer != null) {
+            timer.stop();
+        }
     }
 
     @Override
