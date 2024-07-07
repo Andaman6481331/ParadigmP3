@@ -26,7 +26,7 @@ interface MyConstants
     static final int slimeX = 980;
     static final int slimeWidth = 64;
     static final int slimeHeight = 64;
-    static final int slimeSpeed = 15;
+    static final int slimeSpeed = 10;
     static final int wallX = 150;
 }
 
