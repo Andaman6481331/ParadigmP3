@@ -1,7 +1,6 @@
 package org.example;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 class MainApplication extends JFrame implements KeyListener
@@ -9,12 +8,14 @@ class MainApplication extends JFrame implements KeyListener
     private JLabel          contentpane;
     private CharacterLabel  []petLabels;
     private CharacterLabel  activeLabel;
-    private ItemLabel slimeLabel;
+    private SpriteAnimation slimeLabel;
     private int framewidth   = MyConstants.FRAMEWIDTH;
     private int frameheight  = MyConstants.FRAMEHEIGHT;
     private int groundY      = MyConstants.GROUND_Y;
     private int playerX = MyConstants.playerX;
     private int slimeX = MyConstants.slimeX;
+    private int slimeWidth = MyConstants.slimeWidth;
+    private int slimeHeight = MyConstants.slimeHeight;
 
     public static void main(String[] args)
     {
@@ -39,8 +40,8 @@ class MainApplication extends JFrame implements KeyListener
                 100, 100, this);
         petLabels[0].setMoveConditions(playerX, groundY, true, false);   //X:150 Y:220
 
-        slimeLabel = new ItemLabel(MyConstants.SLIME, 100, 80, this);
-        slimeLabel.setMoveConditions(slimeX, groundY, true, true);
+        slimeLabel = new SpriteAnimation(MyConstants.SLIME, 64, 64, 10,100);
+        slimeLabel.setBounds(slimeX, groundY, slimeWidth, slimeHeight);
 
         // first added label is at the front, last added label is at the back
         contentpane.add(slimeLabel);
@@ -152,65 +153,64 @@ class CharacterLabel extends BaseLabel
         updateLocation();
     }
 }
-
 ////////////////////////////////////////////////////////////////////////////////
-class ItemLabel extends BaseLabel implements MouseListener,MouseMotionListener
-{
-    public ItemLabel(String file, int w, int h, MainApplication pf)
-    {
-        // Alternative icon = null
-        super(file, w, h, pf);
-        addMouseListener( this );
-        addMouseMotionListener( this );
-    }
-    private boolean drag = false;
-
-    public void updateLocation()    { setLocation(curX, curY); }
-    public void setMainIcon()       { setIcon(iconMain); }
-    public void setAltIcon()        { setIcon(iconAlt); }
-
-
-    //for MouseListener
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        if(drag){
-            this.curX = this.curX + e.getX();
-            this.curY = this.curY + e.getY();
-
-            Container parent = getParent();
-
-            if (curX < 0)
-                curX = 0;
-            if (curY < 0)
-                curY = 0;
-            if (curX + width  > parent.getWidth())
-                curX = parent.getWidth() - width;
-            if (curY + height > parent.getHeight())
-                curY = parent.getHeight() - height;
-
-            updateLocation();
-
-        }
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-    }
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-    @Override
-    public void mousePressed(MouseEvent e) {
-        drag = true;
-    }
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        drag = false;
-    }
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-    @Override
-    public void mouseExited(MouseEvent e) {
-    }
-}
+//class ItemLabel extends BaseLabel implements MouseListener,MouseMotionListener
+//{
+//    public ItemLabel(String file, int w, int h, MainApplication pf)
+//    {
+//        // Alternative icon = null
+//        super(file, w, h, pf);
+//        addMouseListener( this );
+//        addMouseMotionListener( this );
+//    }
+//    private boolean drag = false;
+//
+//    public void updateLocation()    { setLocation(curX, curY); }
+//    public void setMainIcon()       { setIcon(iconMain); }
+//    public void setAltIcon()        { setIcon(iconAlt); }
+//
+//
+//    //for MouseListener
+//    @Override
+//    public void mouseDragged(MouseEvent e) {
+//        if(drag){
+//            this.curX = this.curX + e.getX();
+//            this.curY = this.curY + e.getY();
+//
+//            Container parent = getParent();
+//
+//            if (curX < 0)
+//                curX = 0;
+//            if (curY < 0)
+//                curY = 0;
+//            if (curX + width  > parent.getWidth())
+//                curX = parent.getWidth() - width;
+//            if (curY + height > parent.getHeight())
+//                curY = parent.getHeight() - height;
+//
+//            updateLocation();
+//
+//        }
+//    }
+//
+//    @Override
+//    public void mouseMoved(MouseEvent e) {
+//    }
+//    @Override
+//    public void mouseClicked(MouseEvent e) {
+//    }
+//    @Override
+//    public void mousePressed(MouseEvent e) {
+//        drag = true;
+//    }
+//    @Override
+//    public void mouseReleased(MouseEvent e) {
+//        drag = false;
+//    }
+//    @Override
+//    public void mouseEntered(MouseEvent e) {
+//    }
+//    @Override
+//    public void mouseExited(MouseEvent e) {
+//    }
+//}

@@ -13,7 +13,7 @@ interface MyConstants
     static final String PATH        = "src/main/java/org/example/resources/";
     static final String FILE_BG     = PATH + "Background.png";
     static final String PLAYER = PATH + "crossbow.png";
-    static final String SLIME = PATH + "wing.png";
+    static final String SLIME = PATH + "Slime01.png";
 
     //----- Sizes and locations
     static final int FRAMEWIDTH   = 1000;
@@ -21,6 +21,8 @@ interface MyConstants
     static final int GROUND_Y     = 220;
     static final int playerX = 150;
     static final int slimeX = 800;
+    static final int slimeWidth = 64;
+    static final int slimeHeight = 64;
 }
 
 
