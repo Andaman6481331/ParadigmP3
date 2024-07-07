@@ -10,6 +10,7 @@ class MainApplication extends JFrame implements KeyListener {
     private JLabel contentpane;
     private CharacterLabel[] petLabels;
     private CharacterLabel activeLabel;
+    private PlayerAnimation Wizard;
     private int framewidth = MyConstants.FRAMEWIDTH;
     private int frameheight = MyConstants.FRAMEHEIGHT;
     private int groundY = MyConstants.GROUND_Y;
@@ -42,9 +43,13 @@ class MainApplication extends JFrame implements KeyListener {
         petLabels = new CharacterLabel[1];
         petLabels[0] = new CharacterLabel(MyConstants.PLAYER, 100, 100, this);
         petLabels[0].setMoveConditions(playerX, groundY, true, false); // X:150 Y:220
-
         // Add player to contentpane
         contentpane.add(petLabels[0]);
+
+//=====================Herb's Test PlyerAnimation Class: plz dont delete these three line==========================
+//        Wizard = new PlayerAnimation(MyConstants.WIZARD,192,192,6,500);
+//        Wizard.setPlayerStart(playerX,400);
+//        contentpane.add(Wizard);
 
         setDog();
         repaint();
@@ -70,6 +75,12 @@ class MainApplication extends JFrame implements KeyListener {
                 break;
             case KeyEvent.VK_S:
                 getActiveLabel().moveDown();
+                break;
+            case KeyEvent.VK_UP:
+                Wizard.WizardmoveUp();
+                break;
+            case KeyEvent.VK_DOWN:
+                Wizard.WizardmoveDown();
                 break;
         }
     }

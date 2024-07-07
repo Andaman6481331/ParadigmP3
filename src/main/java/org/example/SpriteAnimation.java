@@ -66,7 +66,6 @@ public class SpriteAnimation extends JPanel implements ActionListener {
                         curY +=moveSpeed*3/3;
                         curX -= moveSpeed;
                     }
-
                     statecount++;
                     updateXY();
                 } else {

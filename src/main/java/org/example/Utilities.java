@@ -14,6 +14,9 @@ interface MyConstants
     static final String FILE_BG     = PATH + "Background.png";
     static final String PLAYER = PATH + "crossbow.png";
     static final String SLIME = PATH + "Slime01.png";
+    static final String WIZARD = PATH + "IceWizard.png";
+    static final String WIZARD_UP = PATH + "IceWizard_Up.png";
+    static final String WIZARD_DOWN = PATH + "IceWizard_Down.png";
 
     //----- Sizes and locations
     static final int FRAMEWIDTH   = 1000;

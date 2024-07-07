@@ -45,23 +45,33 @@ public class PlayerAnimation extends JPanel implements ActionListener {
         setLocation(curX, curY);
     }
 
-    public void setStartPosition(int x, int y) {
+    public void setPlayerStart(int x, int y) {
         curX = x;
         curY = y;
         setBounds(x, y, frameWidth, frameHeight);
     }
-    public void moveUp() {
-        if (this.curY == 220) {
-            if (this.curY > 40){
-
+    public void WizardmoveUp() {
+        timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (curY==MyConstants.MIDDLE_LANE) {
+                        while (curY>=MyConstants.TOP_LANE){
+                            curY-=moveSpeed;
+                            break;
+                        }
+                } else if (curY==MyConstants.BOTTOM_LANE) {
+                    while (curY>=MyConstants.MIDDLE_LANE){
+                        curY-=moveSpeed;
+                        break;
+                    }
+                }
+                updatePlayerXY();
             }
-        } else if (this.curY == 400) {
-            this.curY = 220;
-        }
-        updatePlayerXY();
+        });
+        timer.start();
     }
 
-    public void moveDown() {
+    public void WizardmoveDown() {
         if (this.curY == 220) {
             this.curY = 400;
         } else if (this.curY == 40) {
