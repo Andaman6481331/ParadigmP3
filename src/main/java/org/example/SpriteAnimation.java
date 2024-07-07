@@ -52,12 +52,27 @@ public class SpriteAnimation extends JPanel implements ActionListener {
     }
 
     public void startMovement() {
-        timer = new Timer(500, new ActionListener() {
+        timer = new Timer(100, new ActionListener() {
+            private int statecount = 1;
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (curX > wallX) {
-                    curX -= moveSpeed; // Adjust curX by moveSpeed each tick
-                    updateXY(); // Update the position
+                    if (statecount>12){
+                        statecount=0;
+                    } else if (statecount>=2 && statecount<=4) {
+                        curY -=moveSpeed*4/3;
+                        curX -= moveSpeed;
+                    } else if (statecount>=5 && statecount<=8) {
+                        curY +=moveSpeed*3/3;
+                        curX -= moveSpeed;
+                    }
+//                    else if (statecount==9) {
+//                        curY -=moveSpeed+1;
+//
+//                    }
+
+                    statecount++;
+                    updateXY();
                 } else {
                     stopMovement(); // Stop the timer when reached the stopping point
                 }
