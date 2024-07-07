@@ -6,6 +6,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Animation {
+
+    public int spriteCounter = 0;
+    public int spriteNum = 1;
     public void getSlimeAni(){
         try{
             BufferedImage stand1 =ImageIO.read(getClass().getResourceAsStream("/Slime01/Stand1.png"));

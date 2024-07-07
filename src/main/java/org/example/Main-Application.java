@@ -9,13 +9,12 @@ class MainApplication extends JFrame implements KeyListener
     private JLabel          contentpane;
     private CharacterLabel  []petLabels;
     private CharacterLabel  activeLabel;
-    private ItemLabel       wingLabel;
+    private ItemLabel slimeLabel;
     private int framewidth   = MyConstants.FRAMEWIDTH;
     private int frameheight  = MyConstants.FRAMEHEIGHT;
     private int groundY      = MyConstants.GROUND_Y;
-    private int skyY         = MyConstants.SKY_Y;
-    private int bridgeLeftX  = MyConstants.BRIDGE_LEFT;
-    private int bridgeRightX = MyConstants.BRIDGE_RIGHT;
+    private int playerX = MyConstants.playerX;
+    private int slimeX = MyConstants.slimeX;
 
     public static void main(String[] args)
     {
@@ -36,15 +35,15 @@ class MainApplication extends JFrame implements KeyListener
         contentpane.setLayout( null );
 
         petLabels = new CharacterLabel[2];
-        petLabels[0] = new CharacterLabel(MyConstants.FILE_DOG_1, MyConstants.FILE_DOG_2,
+        petLabels[0] = new CharacterLabel(MyConstants.PLAYER,
                 100, 100, this);
-        petLabels[0].setMoveConditions(bridgeLeftX, groundY, true, false);   //X:150 Y:220
+        petLabels[0].setMoveConditions(playerX, groundY, true, false);   //X:150 Y:220
 
-        wingLabel = new ItemLabel(MyConstants.FILE_WING, 100, 80, this);
-        wingLabel.setMoveConditions(bridgeRightX+300, skyY, true, true);
+        slimeLabel = new ItemLabel(MyConstants.SLIME, 100, 80, this);
+        slimeLabel.setMoveConditions(slimeX, groundY, true, true);
 
         // first added label is at the front, last added label is at the back
-        contentpane.add( wingLabel );
+        contentpane.add(slimeLabel);
         contentpane.add( petLabels[0] );
 
         setDog();
@@ -56,9 +55,6 @@ class MainApplication extends JFrame implements KeyListener
     public CharacterLabel getActiveLabel()  { return activeLabel; }
     public void setDog()                    { activeLabel = petLabels[0]; setTitle("Dog is active"); }
 
-    public ItemLabel getWings(){
-        return wingLabel;
-    }
 
     @Override
     public void keyPressed(KeyEvent e){
@@ -66,12 +62,6 @@ class MainApplication extends JFrame implements KeyListener
             case 'd' :
                 setDog();
                 break;
-
-            case 'j':
-                if(!getActiveLabel().isHasWings()){
-                    getActiveLabel().jump();
-                    break;
-                }
         }
         switch (e.getKeyCode()){
             case KeyEvent.VK_W:
@@ -79,9 +69,6 @@ class MainApplication extends JFrame implements KeyListener
                 break;
             case KeyEvent.VK_S:
                 getActiveLabel().moveDown();
-                break;
-            case KeyEvent.VK_ESCAPE:
-                getActiveLabel().removeWings();
                 break;
         }
     }
@@ -138,10 +125,10 @@ abstract class BaseLabel extends JLabel
 ////////////////////////////////////////////////////////////////////////////////
 class CharacterLabel extends BaseLabel
 {
-    public CharacterLabel(String file1, String file2, int w, int h, MainApplication pf)
+    public CharacterLabel(String file1, int w, int h, MainApplication pf)
     {
         // Main icon without wings, alternative icon with wings
-        super(file1, file2, w, h, pf);
+        super(file1, w, h, pf);
     }
 
     public void updateLocation()    {
@@ -162,49 +149,7 @@ class CharacterLabel extends BaseLabel
         } else if (this.curY == 40) {
             this.curY = 220;
         };
-
         updateLocation();
-    }
-    // private boolean facingLeft = true;
-
-    public void jump(){
-        if(this.curX < MyConstants.BRIDGE_LEFT-110)
-            this.curX = MyConstants.BRIDGE_RIGHT+20;
-        else if(this.curX > MyConstants.BRIDGE_RIGHT)
-            this.curX = MyConstants.BRIDGE_LEFT-120;
-        else
-            return;
-        updateLocation();
-    }
-    //Wing Property Functions
-    //set initial state
-    private boolean hasWings = false;
-    private ItemLabel wings;
-
-    public boolean isHasWings(){
-        return hasWings;
-    }
-    public void putWings(ItemLabel wings){
-        if(!hasWings){
-            this.wings = wings;     //put on wings
-            hasWings = true;        //set property
-            setIcon(iconAlt);
-            parentFrame.remove(wings);
-            parentFrame.getWings().setVisible(false);   //hide wings component from view of GUI
-            updateLocation();
-        }
-    }
-    public void removeWings(){
-        if (hasWings) {
-            hasWings = false;       //disable the up and down function
-            setIcon(iconMain);      //change sprite
-            parentFrame.add(wings);
-            parentFrame.getWings().setVisible(true);
-            parentFrame.getActiveLabel().curY = MyConstants.GROUND_Y;
-            updateLocation();
-            parentFrame.getWings().setLocation(800, 50); // Set the location of wings
-            this.wings = null;      //for some reason need to be after updateLocation()
-        }
     }
 }
 
@@ -245,9 +190,6 @@ class ItemLabel extends BaseLabel implements MouseListener,MouseMotionListener
 
             updateLocation();
 
-            if(this.getBounds().intersects((parentFrame.getActiveLabel().getBounds()))){
-                parentFrame.getActiveLabel().putWings(parentFrame.getWings());
-            }
         }
     }
 
