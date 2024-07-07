@@ -17,7 +17,7 @@ public class SpriteAnimation extends JPanel implements ActionListener {
     private int frameWidth;
     private int frameHeight;
     private int moveSpeed;
-    private int  curX, curY;
+    private int curX, curY;
     private int wallX;
 
     public SpriteAnimation(String spriteSheetPath, int frameWidth, int frameHeight, int numFrames, int delay) {
@@ -39,9 +39,9 @@ public class SpriteAnimation extends JPanel implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-    public void updateXY(){
+
+    public void updateXY() {
         setLocation(curX, curY);
     }
 
@@ -59,12 +59,19 @@ public class SpriteAnimation extends JPanel implements ActionListener {
                     curX -= moveSpeed; // Adjust curX by moveSpeed each tick
                     updateXY(); // Update the position
                 } else {
-                    stopMovement(); // Stop the timer when reached the stopping point
+                    // Remove the slime from the parent container and stop the timer
+                    Container parent = getParent();
+                    if (parent != null) {
+                        parent.remove(SpriteAnimation.this);
+                        parent.repaint();
+                    }
+                    stopMovement(); // Stop the timer
                 }
             }
         });
         timer.start();
     }
+
     public void stopMovement() {
         if (timer != null) {
             timer.stop();
