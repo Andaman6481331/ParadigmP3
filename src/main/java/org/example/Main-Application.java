@@ -32,6 +32,7 @@ class MainApplication extends JFrame implements KeyListener {
     }
 
     public MainApplication() {
+        setTitle("Game");
         setSize(framewidth, frameheight);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -80,7 +81,7 @@ class MainApplication extends JFrame implements KeyListener {
 
     public void setDog() {
         activeLabel = petLabels[0];
-        setTitle("Dog is active");
+        setTitle("Slime_Slayer");
     }
 
     @Override
