@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.File;
 
-public class SpriteAnimation extends JPanel implements ActionListener {
+public class PlayerAnimation extends JPanel implements ActionListener {
     private BufferedImage spriteSheet;
     private BufferedImage[] frames;
     private int currentFrame;
@@ -20,7 +20,7 @@ public class SpriteAnimation extends JPanel implements ActionListener {
     private int curX, curY;
     private int wallX;
 
-    public SpriteAnimation(String spriteSheetPath, int frameWidth, int frameHeight, int numFrames, int delay) {
+    public PlayerAnimation(String spriteSheetPath, int frameWidth, int frameHeight, int numFrames, int delay) {
         timer = new Timer(delay, this);
         timer.start();
         this.frameWidth = frameWidth;
@@ -41,7 +41,7 @@ public class SpriteAnimation extends JPanel implements ActionListener {
         }
     }
 
-    public void updateXY() {
+    public void updatePlayerXY() {
         setLocation(curX, curY);
     }
 
@@ -50,43 +50,24 @@ public class SpriteAnimation extends JPanel implements ActionListener {
         curY = y;
         setBounds(x, y, frameWidth, frameHeight);
     }
+    public void moveUp() {
+        if (this.curY == 220) {
+            if (this.curY > 40){
 
-    public void startMovement() {
-        timer = new Timer(100, new ActionListener() {
-            private int statecount = 1;
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (curX > wallX) {
-                    if (statecount>12){
-                        statecount=0;
-                    } else if (statecount>=2 && statecount<=4) {
-                        curY -=moveSpeed*4/3;
-                        curX -= moveSpeed;
-                    } else if (statecount>=5 && statecount<=8) {
-                        curY +=moveSpeed*3/3;
-                        curX -= moveSpeed;
-                    }
-
-                    statecount++;
-                    updateXY();
-                } else {
-                    // Remove the slime from the parent container and stop the timer
-                    Container parent = getParent();
-                    if (parent != null) {
-                        parent.remove(SpriteAnimation.this);
-                        parent.repaint();
-                    }
-                    stopMovement(); // Stop the timer
-                }
             }
-        });
-        timer.start();
+        } else if (this.curY == 400) {
+            this.curY = 220;
+        }
+        updatePlayerXY();
     }
 
-    public void stopMovement() {
-        if (timer != null) {
-            timer.stop();
+    public void moveDown() {
+        if (this.curY == 220) {
+            this.curY = 400;
+        } else if (this.curY == 40) {
+            this.curY = 220;
         }
+        updatePlayerXY();
     }
 
     @Override
