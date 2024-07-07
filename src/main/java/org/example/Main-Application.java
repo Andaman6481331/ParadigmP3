@@ -8,10 +8,15 @@ class MainApplication extends JFrame implements KeyListener
     private JLabel          contentpane;
     private CharacterLabel  []petLabels;
     private CharacterLabel  activeLabel;
-    private SpriteAnimation slimeLabel;
+    private SpriteAnimation slime1;
+    private SpriteAnimation slime2;
+    private SpriteAnimation slime3;
     private int framewidth   = MyConstants.FRAMEWIDTH;
     private int frameheight  = MyConstants.FRAMEHEIGHT;
     private int groundY      = MyConstants.GROUND_Y;
+    private int top_laneY      = MyConstants.TOP_LANE;
+    private int middle_laneY      = MyConstants.MIDDLE_LANE;
+    private int bottom_laneY      = MyConstants.BOTTOM_LANE;
     private int playerX = MyConstants.playerX;
     private int slimeX = MyConstants.slimeX;
     private int slimeWidth = MyConstants.slimeWidth;
@@ -40,11 +45,21 @@ class MainApplication extends JFrame implements KeyListener
                 100, 100, this);
         petLabels[0].setMoveConditions(playerX, groundY, true, false);   //X:150 Y:220
 
-        slimeLabel = new SpriteAnimation(MyConstants.SLIME, 64, 64, 10,100);
-        slimeLabel.setBounds(slimeX, groundY, slimeWidth, slimeHeight);
+//==================================================================initialize slimes==================================================================
+        slime1 = new SpriteAnimation(MyConstants.SLIME, 64, 64, 10,100);
+        slime1.setBounds(slimeX, top_laneY, slimeWidth, slimeHeight);
 
+        slime2 = new SpriteAnimation(MyConstants.SLIME, 64, 64, 10,100);
+        slime2.setBounds(slimeX, middle_laneY, slimeWidth, slimeHeight);
+
+        slime3 = new SpriteAnimation(MyConstants.SLIME, 64, 64, 10,100);
+        slime3.setBounds(slimeX, bottom_laneY, slimeWidth, slimeHeight);
+
+//==================================================================Add to contentpane==================================================================
         // first added label is at the front, last added label is at the back
-        contentpane.add(slimeLabel);
+        contentpane.add(slime1);
+        contentpane.add(slime2);
+        contentpane.add(slime3);
         contentpane.add( petLabels[0] );
 
         setDog();
