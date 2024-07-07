@@ -23,10 +23,10 @@ interface MyConstants
     static final int MIDDLE_LANE     = 250;
     static final int BOTTOM_LANE    = 430;
     static final int playerX = 150;
-    static final int slimeX = 800;
+    static final int slimeX = 980;
     static final int slimeWidth = 64;
     static final int slimeHeight = 64;
-    static final int slimeSpeed = 50;
+    static final int slimeSpeed = 15;
     static final int wallX = 150;
 }
 
