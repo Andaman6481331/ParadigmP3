@@ -9,24 +9,26 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.File;
 
+
 public class PlayerAnimation extends JPanel implements ActionListener {
     private BufferedImage spriteSheet;
     private BufferedImage[] frames;
     private int currentFrame;
-    private Timer timer;
+    private Timer animationTimer;
+    private Timer movementTimer;
     private int frameWidth;
     private int frameHeight;
     private int moveSpeed;
     private int curX, curY;
-    private int wallX;
+    private int targetY;
+    private boolean moving = false;
 
     public PlayerAnimation(String spriteSheetPath, int frameWidth, int frameHeight, int numFrames, int delay) {
-        timer = new Timer(delay, this);
-        timer.start();
+        animationTimer = new Timer(delay, this);
+        animationTimer.start();
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
         this.moveSpeed = MyConstants.slimeSpeed;
-        this.wallX = MyConstants.wallX;
         setOpaque(false);
         try {
             spriteSheet = ImageIO.read(new File(spriteSheetPath));
@@ -34,11 +36,18 @@ public class PlayerAnimation extends JPanel implements ActionListener {
             for (int i = 0; i < numFrames; i++) {
                 frames[i] = spriteSheet.getSubimage(i * frameWidth, 0, frameWidth, frameHeight);
             }
-            timer = new Timer(delay, this);
-            timer.start();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // Initialize movement timer
+        movementTimer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                movePlayer();
+            }
+        });
+        movementTimer.start();
     }
 
     public void updatePlayerXY() {
@@ -51,34 +60,55 @@ public class PlayerAnimation extends JPanel implements ActionListener {
         setBounds(x, y, frameWidth, frameHeight);
     }
     public void WizardmoveUp() {
-        timer = new Timer(100, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (curY==MyConstants.MIDDLE_LANE) {
-                        while (curY>=MyConstants.TOP_LANE){
-                            curY-=moveSpeed;
-                            break;
-                        }
-                } else if (curY==MyConstants.BOTTOM_LANE) {
-                    while (curY>=MyConstants.MIDDLE_LANE){
-                        curY-=moveSpeed;
-                        break;
-                    }
-                }
-                updatePlayerXY();
-            }
-        });
-        timer.start();
-    }
-
-    public void WizardmoveDown() {
-        if (this.curY == 220) {
-            this.curY = 400;
-        } else if (this.curY == 40) {
-            this.curY = 220;
+        if (curY == MyConstants.MIDDLE_LANE-50) {
+            moving=true;
+            targetY = MyConstants.TOP_LANE-50;
+        } else if (curY == MyConstants.BOTTOM_LANE-50) {
+            moving=true;
+            targetY = MyConstants.MIDDLE_LANE-50;
         }
         updatePlayerXY();
     }
+
+    public void WizardmoveDown() {
+        if (curY == MyConstants.MIDDLE_LANE-50) {
+            moving=true;
+            targetY =MyConstants.BOTTOM_LANE-50;
+        } else if (curY == MyConstants.TOP_LANE-50) {
+            moving=true;
+            targetY = MyConstants.MIDDLE_LANE-50;
+        }
+        updatePlayerXY();
+    }
+
+    private void movePlayer() {
+        if (moving) {
+            if (curY < targetY) {
+                curY += moveSpeed;
+                if (curY >= targetY) {
+                    curY = targetY;
+                    moving = false;
+                }
+            } else if (curY > targetY) {
+                curY -= moveSpeed;
+                if (curY <= targetY) {
+                    curY = targetY;
+                    moving = false;
+                }
+            }
+            updatePlayerXY();
+        }
+    }
+
+//    public void Shooting() {
+//        ArrowAnimation arrow = new ArrowAnimation(MyConstants.SLIME, MyConstants.slimeWidth, MyConstants.slimeHeight, 5,100);
+//        arrow.setStartPosition(this.getX(), this.getY());
+//        arrow.startMovement_ARROW();
+//
+//        arrows.add(arrow);
+//        contentpane.add(arrow);
+//        contentpane.repaint();
+//    }
 
     @Override
     protected void paintComponent(Graphics g) {
