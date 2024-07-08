@@ -35,7 +35,7 @@ class MainApplication extends JFrame implements KeyListener {
     }
 
     public MainApplication() {
-        setTitle("Game");
+        setTitle("Slime Slayer69");
         setSize(framewidth, frameheight);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -128,8 +128,8 @@ class MainApplication extends JFrame implements KeyListener {
     }
 
     private void deployArrow() {
-        ArrowAnimation arrow = new ArrowAnimation(MyConstants.SLIME, slimeWidth, slimeHeight, 5,100);
-        arrow.setStartPosition(Wizard.getX(), Wizard.getY());
+        ArrowAnimation arrow = new ArrowAnimation(MyConstants.FIREBALL, 64, 64, 10,100);
+        arrow.setStartPosition(Wizard.getX()+20, Wizard.getY()+30);
         arrow.startMovement_ARROW();
 
         arrows.add(arrow);
