@@ -29,6 +29,8 @@ class MainApplication extends JFrame implements KeyListener {
     private ArrayList<ArrowAnimation> arrows;
     private ArrayList<SpriteAnimation> slimes;
     private int heartsCount;
+    private boolean arrowCooldown = false;
+    private final int arrowCooldownDelay = 500; // 0.5 วิมั้ง
 
     public static void main(String[] args) {
         new MainApplication();
@@ -96,7 +98,7 @@ class MainApplication extends JFrame implements KeyListener {
                 break;
             case KeyEvent.VK_SPACE:
                 if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50)
-                deployArrow();
+                    deployArrowWithCooldown();
                 break;
             case KeyEvent.VK_UP:
                 Wizard.WizardmoveUp();
@@ -126,6 +128,18 @@ class MainApplication extends JFrame implements KeyListener {
         contentpane.add(slime);
         contentpane.repaint();
     }
+    private void deployArrowWithCooldown() {
+        if (!arrowCooldown){
+            deployArrow();
+            arrowCooldown=true;
+            Timer cooldownTimer=new Timer();
+            cooldownTimer.schedule(new TimerTask() {
+                @Override
+                public void run(){
+                    arrowCooldown=false;
+                }
+            }, arrowCooldownDelay);}
+    }
 
     private void deployArrow() {
         ArrowAnimation arrow = new ArrowAnimation(MyConstants.FIREBALL, 64, 64, 10,100);
@@ -143,7 +157,7 @@ class MainApplication extends JFrame implements KeyListener {
     }
 
     private void scheduleNextSlimeGeneration() {
-        int randomDelay = new Random().nextInt(3000) + 1000; // Random delay between 1 and 4 seconds
+        int randomDelay = new Random().nextInt(1750) + 500; //สุ่ม 0.5- 2 วิ
         slimeTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -158,7 +172,7 @@ class MainApplication extends JFrame implements KeyListener {
             ArrowAnimation arrow = arrows.get(i);
             for (int j = 0; j < slimes.size(); j++) {
                 SpriteAnimation slime = slimes.get(j);
-                if (arrow.getX()<950){
+                if (arrow.getX()<900){
                     if (arrow.getBounds().intersects(slime.getBounds())) {
                         // Remove arrow and slime from content pane and lists
                         contentpane.remove(arrow);
