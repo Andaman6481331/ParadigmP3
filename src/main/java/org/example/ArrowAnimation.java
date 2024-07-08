@@ -52,20 +52,11 @@ public class ArrowAnimation extends JPanel implements ActionListener {
 
     public void startMovement_ARROW() {
         timer = new Timer(50, new ActionListener() {
-            private int statecount = 1;
+//            private int statecount = 1;
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (curX < 1000) {
-                    if (statecount>12){
-                        statecount=0;
-                    } else if (statecount>=2 && statecount<=4) {
-                        curY +=moveSpeed*4/3;
-                        curX += moveSpeed;
-                    } else if (statecount>=5 && statecount<=8) {
-                        curY -=moveSpeed*3/3;
-                        curX += moveSpeed;
-                    }
-                    statecount++;
+                    curX += moveSpeed*1.5;
                     updateXY();
                 } else {
                     // Remove the slime from the parent container and stop the timer
