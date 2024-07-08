@@ -10,6 +10,10 @@ import java.util.TimerTask;
 class MainApplication extends JFrame implements KeyListener {
     private JLabel contentpane;
     private PlayerAnimation Wizard;
+//    private Heart FHeart;
+    private SpriteAnimation FHeart1;
+    private SpriteAnimation FHeart2;
+    private SpriteAnimation FHeart3;
     private int framewidth = MyConstants.FRAMEWIDTH;
     private int frameheight = MyConstants.FRAMEHEIGHT;
     private int groundY = MyConstants.GROUND_Y;
@@ -20,7 +24,6 @@ class MainApplication extends JFrame implements KeyListener {
     private int slimeX = MyConstants.slimeX;
     private int slimeWidth = MyConstants.slimeWidth;
     private int slimeHeight = MyConstants.slimeHeight;
-
     private Timer slimeTimer;
     private ArrayList<ArrowAnimation> arrows;
     private ArrayList<SpriteAnimation> slimes;
@@ -47,6 +50,18 @@ class MainApplication extends JFrame implements KeyListener {
         Wizard = new PlayerAnimation(MyConstants.WIZARD,MyConstants.WIZARD_UP, MyConstants.WIZARD_DOWN,128,128,6,4,4,500);
         Wizard.setPlayerStart(playerX,middle_laneY-50);
         contentpane.add(Wizard);
+        repaint();
+
+        FHeart1 = new SpriteAnimation(MyConstants.FHeart, 25, 21,1,100);
+        FHeart1.setStartPosition(850, 20);
+        contentpane.add(FHeart1);
+        FHeart2 = new SpriteAnimation(MyConstants.FHeart, 25, 21,1,100);
+        FHeart2.setStartPosition(890, 20);
+        contentpane.add(FHeart2);
+        FHeart3 = new SpriteAnimation(MyConstants.FHeart, 25, 21,1,100);
+        FHeart3.setStartPosition(930, 20);
+        contentpane.add(FHeart3);
+
 
         repaint();
         addKeyListener(this);
