@@ -158,17 +158,20 @@ class MainApplication extends JFrame implements KeyListener {
             ArrowAnimation arrow = arrows.get(i);
             for (int j = 0; j < slimes.size(); j++) {
                 SpriteAnimation slime = slimes.get(j);
-                if (arrow.getBounds().intersects(slime.getBounds())) {
-                    // Remove arrow and slime from content pane and lists
-                    contentpane.remove(arrow);
-                    contentpane.remove(slime);
-                    arrows.remove(i);
-                    slimes.remove(j);
-                    contentpane.repaint();
-                    i--;
-                    j--;
-                    break;
+                if (arrow.getX()<950){
+                    if (arrow.getBounds().intersects(slime.getBounds())) {
+                        // Remove arrow and slime from content pane and lists
+                        contentpane.remove(arrow);
+                        contentpane.remove(slime);
+                        arrows.remove(i);
+                        slimes.remove(j);
+                        contentpane.repaint();
+                        i--;
+                        j--;
+                        break;
+                    }
                 }
+
             }
         }
     }

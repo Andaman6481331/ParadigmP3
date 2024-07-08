@@ -55,17 +55,17 @@ public class ArrowAnimation extends JPanel implements ActionListener {
 //            private int statecount = 1;
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (curX < 1000) {
+                if (curX < 950) {
                     curX += moveSpeed*1.5;
                     updateXY();
                 } else {
                     // Remove the slime from the parent container and stop the timer
+                    stopMovement(); // Stop the timer
                     Container parent = getParent();
                     if (parent != null) {
                         parent.remove(ArrowAnimation.this);
                         parent.repaint();
                     }
-                    stopMovement(); // Stop the timer
                 }
             }
         });
