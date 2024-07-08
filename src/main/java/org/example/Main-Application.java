@@ -10,10 +10,11 @@ import java.util.TimerTask;
 class MainApplication extends JFrame implements KeyListener {
     private JLabel contentpane;
     private PlayerAnimation Wizard;
+    private JLabel[] hearts;
 //    private Heart FHeart;
-    private SpriteAnimation FHeart1;
-    private SpriteAnimation FHeart2;
-    private SpriteAnimation FHeart3;
+    // private SpriteAnimation FHeart1;
+    // private SpriteAnimation FHeart2;
+    // private SpriteAnimation FHeart3;
     private int framewidth = MyConstants.FRAMEWIDTH;
     private int frameheight = MyConstants.FRAMEHEIGHT;
     private int groundY = MyConstants.GROUND_Y;
@@ -27,6 +28,7 @@ class MainApplication extends JFrame implements KeyListener {
     private Timer slimeTimer;
     private ArrayList<ArrowAnimation> arrows;
     private ArrayList<SpriteAnimation> slimes;
+    private int heartsCount;
 
     public static void main(String[] args) {
         new MainApplication();
@@ -52,15 +54,14 @@ class MainApplication extends JFrame implements KeyListener {
         contentpane.add(Wizard);
         repaint();
 
-        FHeart1 = new SpriteAnimation(MyConstants.FHeart, 25, 21,1,100);
-        FHeart1.setStartPosition(850, 20);
-        contentpane.add(FHeart1);
-        FHeart2 = new SpriteAnimation(MyConstants.FHeart, 25, 21,1,100);
-        FHeart2.setStartPosition(890, 20);
-        contentpane.add(FHeart2);
-        FHeart3 = new SpriteAnimation(MyConstants.FHeart, 25, 21,1,100);
-        FHeart3.setStartPosition(930, 20);
-        contentpane.add(FHeart3);
+        //Try change number of hearts on line 57,58 //There is a problem with if too many hearts will create heart image out of the frame try more than 4
+        hearts = new JLabel[3];
+        heartsCount = 3; // Initialize hearts count
+        for (int i = 0; i < hearts.length; i++) {
+            hearts[i] = new JLabel(new MyImageIcon(MyConstants.FHeart).resize(25, 21));
+            hearts[i].setBounds(850 + (i*30), 20, 25, 21);
+            contentpane.add(hearts[i]);
+        }
 
 
         repaint();
@@ -72,12 +73,13 @@ class MainApplication extends JFrame implements KeyListener {
         // Start generating slimes at random intervals
         startSlimeGeneration();
 
-        // Start a timer to check for collisions
+        // Start a timer to check for collisions and slime postions
         Timer collisionTimer = new Timer();
         collisionTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 checkCollisions();
+                checkSlimesPosition();
             }
         }, 0, 100);
     }
@@ -168,6 +170,33 @@ class MainApplication extends JFrame implements KeyListener {
                     break;
                 }
             }
+        }
+    }
+    private void checkSlimesPosition() {
+        for (int i = 0; i < slimes.size(); i++) {
+            SpriteAnimation slime = slimes.get(i);
+            if (slime.getX() <= 100) {
+                // Slime hits the wall, decrease hearts
+                decreaseHeart();
+                contentpane.remove(slime);
+                slimes.remove(i);
+                contentpane.repaint();
+                i--;
+            }
+        }
+    }
+
+    private void decreaseHeart() {
+        if (heartsCount > 0) {
+            heartsCount--;
+            hearts[heartsCount].setIcon(new MyImageIcon(MyConstants.NHeart).resize(25, 21));
+            if (heartsCount == 0) {
+                JOptionPane.showMessageDialog(this, "Game Over");
+                new StartMenu().setVisible(true);
+                dispose();
+                
+            }
+            contentpane.repaint();
         }
     }
 }

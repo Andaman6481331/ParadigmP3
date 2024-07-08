@@ -19,6 +19,7 @@ interface MyConstants
     static final String WIZARD_DOWN = PATH + "IceWizard_Down.png";
     static final String ARROW = PATH + "wing.png";
     static final String FHeart = PATH + "FullHeart.png";
+    static final String NHeart = PATH + "NoHeart.png";
 
     //----- Sizes and locations
     static final int FRAMEWIDTH   = 1000;
@@ -32,7 +33,7 @@ interface MyConstants
     static final int slimeWidth = 64;
     static final int slimeHeight = 64;
     static final int slimeSpeed = 10;
-    static final int wallX = 150;
+    static final int wallX = 100;
 }
 
 
