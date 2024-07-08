@@ -13,6 +13,13 @@ import java.io.File;
 public class PlayerAnimation extends JPanel implements ActionListener {
     private BufferedImage spriteSheet;
     private BufferedImage[] frames;
+    private BufferedImage idleSpriteSheet;
+    private BufferedImage movingUpSpriteSheet;
+    private BufferedImage movingDownSpriteSheet;
+    private BufferedImage[] idleFrames;
+    private BufferedImage[] movingUpFrames;
+    private BufferedImage[] movingDownFrames;
+    private BufferedImage[] currentFrames;
     private int currentFrame;
     private Timer animationTimer;
     private Timer movementTimer;
@@ -23,7 +30,7 @@ public class PlayerAnimation extends JPanel implements ActionListener {
     private int targetY;
     private boolean moving = false;
 
-    public PlayerAnimation(String spriteSheetPath, int frameWidth, int frameHeight, int numFrames, int delay) {
+    public PlayerAnimation(String idleSpriteSheetPath, String movingUpSpriteSheetPath, String movingDownSpriteSheetPath, int frameWidth, int frameHeight, int numFramesIdle, int numFramesMovingUp, int numFramesMovingDown, int delay) {
         animationTimer = new Timer(delay, this);
         animationTimer.start();
         this.frameWidth = frameWidth;
@@ -31,11 +38,27 @@ public class PlayerAnimation extends JPanel implements ActionListener {
         this.moveSpeed = MyConstants.slimeSpeed;
         setOpaque(false);
         try {
-            spriteSheet = ImageIO.read(new File(spriteSheetPath));
-            frames = new BufferedImage[numFrames];
-            for (int i = 0; i < numFrames; i++) {
-                frames[i] = spriteSheet.getSubimage(i * frameWidth, 0, frameWidth, frameHeight);
+            idleSpriteSheet = ImageIO.read(new File(idleSpriteSheetPath));
+            idleFrames = new BufferedImage[numFramesIdle];
+            for (int i = 0; i < numFramesIdle; i++) {
+                idleFrames[i] = idleSpriteSheet.getSubimage(i * frameWidth, 0, frameWidth, frameHeight);
             }
+
+            // Load moving up sprite sheet and frames
+            movingUpSpriteSheet = ImageIO.read(new File(movingUpSpriteSheetPath));
+            movingUpFrames = new BufferedImage[numFramesMovingUp];
+            for (int i = 0; i < numFramesMovingUp; i++) {
+                movingUpFrames[i] = movingUpSpriteSheet.getSubimage(i * frameWidth, 0, frameWidth, frameHeight);
+            }
+
+            // Load moving down sprite sheet and frames
+            movingDownSpriteSheet = ImageIO.read(new File(movingDownSpriteSheetPath));
+            movingDownFrames = new BufferedImage[numFramesMovingDown];
+            for (int i = 0; i < numFramesMovingDown; i++) {
+                movingDownFrames[i] = movingDownSpriteSheet.getSubimage(i * frameWidth, 0, frameWidth, frameHeight);
+            }
+
+            currentFrames = idleFrames;
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,6 +91,7 @@ public class PlayerAnimation extends JPanel implements ActionListener {
             targetY = MyConstants.MIDDLE_LANE-50;
         }
         updatePlayerXY();
+        currentFrames = movingUpFrames;
     }
 
     public void WizardmoveDown() {
@@ -79,6 +103,7 @@ public class PlayerAnimation extends JPanel implements ActionListener {
             targetY = MyConstants.MIDDLE_LANE-50;
         }
         updatePlayerXY();
+        currentFrames = movingDownFrames;
     }
 
     private void movePlayer() {
@@ -88,40 +113,31 @@ public class PlayerAnimation extends JPanel implements ActionListener {
                 if (curY >= targetY) {
                     curY = targetY;
                     moving = false;
+                    currentFrames = idleFrames;
                 }
             } else if (curY > targetY) {
                 curY -= moveSpeed;
                 if (curY <= targetY) {
                     curY = targetY;
                     moving = false;
+                    currentFrames = idleFrames;
                 }
             }
             updatePlayerXY();
         }
     }
-
-//    public void Shooting() {
-//        ArrowAnimation arrow = new ArrowAnimation(MyConstants.SLIME, MyConstants.slimeWidth, MyConstants.slimeHeight, 5,100);
-//        arrow.setStartPosition(this.getX(), this.getY());
-//        arrow.startMovement_ARROW();
-//
-//        arrows.add(arrow);
-//        contentpane.add(arrow);
-//        contentpane.repaint();
-//    }
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (frames != null && frames.length > 0) {
+        if (currentFrames != null && currentFrames.length > 0) {
             Graphics2D g2d = (Graphics2D) g;
-            g2d.drawImage(frames[currentFrame], 0, 0, frameWidth, frameHeight, this);
+            g2d.drawImage(currentFrames[currentFrame], 0, 0, frameWidth, frameHeight, this);
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        currentFrame = (currentFrame + 1) % frames.length;
+        currentFrame = (currentFrame + 1) % currentFrames.length;
         repaint();
     }
 }

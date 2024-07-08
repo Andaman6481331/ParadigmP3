@@ -9,8 +9,6 @@ import java.util.TimerTask;
 
 class MainApplication extends JFrame implements KeyListener {
     private JLabel contentpane;
-    private CharacterLabel[] petLabels;
-    private CharacterLabel activeLabel;
     private PlayerAnimation Wizard;
     private int framewidth = MyConstants.FRAMEWIDTH;
     private int frameheight = MyConstants.FRAMEHEIGHT;
@@ -44,18 +42,12 @@ class MainApplication extends JFrame implements KeyListener {
         contentpane.setIcon(background);
         contentpane.setLayout(null);
 
-//        petLabels = new CharacterLabel[1];
-//        petLabels[0] = new CharacterLabel(MyConstants.PLAYER, 100, 100, this);
-//        petLabels[0].setMoveConditions(playerX, groundY, true, false); // X:150 Y:220
-//        // Add player to contentpane
-//        contentpane.add(petLabels[0]);
 
 //=====================Herb's Test PlyerAnimation Class: plz dont delete these three line==========================
-        Wizard = new PlayerAnimation(MyConstants.WIZARD,128,128,6,500);
+        Wizard = new PlayerAnimation(MyConstants.WIZARD,MyConstants.WIZARD_UP, MyConstants.WIZARD_DOWN,128,128,6,4,4,500);
         Wizard.setPlayerStart(playerX,middle_laneY-50);
         contentpane.add(Wizard);
 
-//        setDog();
         repaint();
         addKeyListener(this);
 
@@ -75,33 +67,18 @@ class MainApplication extends JFrame implements KeyListener {
         }, 0, 100);
     }
 
-    public CharacterLabel getActiveLabel() {
-        return activeLabel;
-    }
-
-//    public void setDog() {
-//        activeLabel = petLabels[0];
-//        setTitle("Slime_Slayer");
-//    }
-
     @Override
     public void keyPressed(KeyEvent e) {
-//        switch (e.getKeyChar()) {
-//            case 'd':
-//                setDog();
-//                break;
-////            case 'e':
-////                Wizard.Shooting();
-////                break;
-//        }
+
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
-                getActiveLabel().moveUp();
+                Wizard.WizardmoveUp();
                 break;
             case KeyEvent.VK_S:
-                getActiveLabel().moveDown();
+                Wizard.WizardmoveDown();
                 break;
             case KeyEvent.VK_SPACE:
+                if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50)
                 deployArrow();
                 break;
             case KeyEvent.VK_UP:
@@ -124,7 +101,7 @@ class MainApplication extends JFrame implements KeyListener {
         int[] lanes = {top_laneY, middle_laneY, bottom_laneY};
         int randomLane = lanes[random.nextInt(3)];
 
-        SpriteAnimation slime = new SpriteAnimation(MyConstants.SLIME, slimeWidth, slimeHeight, 10, 200);
+        SpriteAnimation slime = new SpriteAnimation(MyConstants.SLIME, MyConstants.slimeWidth, MyConstants.slimeHeight, 10, 200);
         slime.setStartPosition(slimeX, randomLane);
         slime.startMovement();
 
