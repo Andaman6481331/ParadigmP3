@@ -2,6 +2,7 @@ package org.example;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -11,10 +12,8 @@ class MainApplication extends JFrame implements KeyListener {
     private JLabel contentpane;
     private PlayerAnimation Wizard;
     private JLabel[] hearts;
-//    private Heart FHeart;
-    // private SpriteAnimation FHeart1;
-    // private SpriteAnimation FHeart2;
-    // private SpriteAnimation FHeart3;
+    private BufferedImage[] playerstate = Wizard.getCurrentFrames();;
+    private BufferedImage[] shooting = Wizard.getShootingFrames();
     private int framewidth = MyConstants.FRAMEWIDTH;
     private int frameheight = MyConstants.FRAMEHEIGHT;
     private int groundY = MyConstants.GROUND_Y;
@@ -51,9 +50,13 @@ class MainApplication extends JFrame implements KeyListener {
 
 
 //=====================Herb's Test PlyerAnimation Class: plz dont delete these three line==========================
-        Wizard = new PlayerAnimation(MyConstants.WIZARD,MyConstants.WIZARD_UP, MyConstants.WIZARD_DOWN,128,128,6,4,4,500);
+        Wizard = new PlayerAnimation(MyConstants.WIZARD,MyConstants.WIZARD_UP, MyConstants.WIZARD_DOWN,MyConstants.WIZARD_SHOOTING,128,128,6,4,4,5,500);
         Wizard.setPlayerStart(playerX,middle_laneY-50);
         contentpane.add(Wizard);
+
+        playerstate = Wizard.getCurrentFrames();
+        shooting = Wizard.getShootingFrames();
+
         repaint();
 
         //Try change number of hearts on line 57,58 //There is a problem with if too many hearts will create heart image out of the frame try more than 4
@@ -97,8 +100,11 @@ class MainApplication extends JFrame implements KeyListener {
                 Wizard.WizardmoveDown();
                 break;
             case KeyEvent.VK_SPACE:
-                if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50)
+                if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50){
                     deployArrowWithCooldown();
+                    playerstate = shooting;
+                }
+
                 break;
             case KeyEvent.VK_UP:
                 Wizard.WizardmoveUp();

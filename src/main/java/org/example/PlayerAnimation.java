@@ -16,9 +16,11 @@ public class PlayerAnimation extends JPanel implements ActionListener {
     private BufferedImage idleSpriteSheet;
     private BufferedImage movingUpSpriteSheet;
     private BufferedImage movingDownSpriteSheet;
+    private BufferedImage ShootingSpriteSheet;
     private BufferedImage[] idleFrames;
     private BufferedImage[] movingUpFrames;
     private BufferedImage[] movingDownFrames;
+    private BufferedImage[] shootingFrames;
     private BufferedImage[] currentFrames;
     private int currentFrame;
     private Timer animationTimer;
@@ -30,7 +32,7 @@ public class PlayerAnimation extends JPanel implements ActionListener {
     private int targetY;
     private boolean moving = false;
 
-    public PlayerAnimation(String idleSpriteSheetPath, String movingUpSpriteSheetPath, String movingDownSpriteSheetPath, int frameWidth, int frameHeight, int numFramesIdle, int numFramesMovingUp, int numFramesMovingDown, int delay) {
+    public PlayerAnimation(String idleSpriteSheetPath, String movingUpSpriteSheetPath, String movingDownSpriteSheetPath, String ShootingSpriteSheetPath,int frameWidth, int frameHeight, int numFramesIdle, int numFramesMovingUp, int numFramesMovingDown,int numFramesShooting, int delay) {
         animationTimer = new Timer(delay, this);
         animationTimer.start();
         this.frameWidth = frameWidth;
@@ -56,6 +58,12 @@ public class PlayerAnimation extends JPanel implements ActionListener {
             movingDownFrames = new BufferedImage[numFramesMovingDown];
             for (int i = 0; i < numFramesMovingDown; i++) {
                 movingDownFrames[i] = movingDownSpriteSheet.getSubimage(i * frameWidth, 0, frameWidth, frameHeight);
+            }
+
+            ShootingSpriteSheet = ImageIO.read(new File(ShootingSpriteSheetPath));
+            shootingFrames = new BufferedImage[numFramesShooting];
+            for (int i = 0; i < numFramesMovingDown; i++) {
+                shootingFrames[i] = ShootingSpriteSheet.getSubimage(i * frameWidth, 0, frameWidth, frameHeight);
             }
 
             currentFrames = idleFrames;
@@ -106,6 +114,14 @@ public class PlayerAnimation extends JPanel implements ActionListener {
         currentFrames = movingDownFrames;
     }
 
+    public BufferedImage[] getShootingFrames() {
+        return shootingFrames;
+    }
+
+    public BufferedImage[] getCurrentFrames() {
+        return currentFrames;
+    }
+
     private void movePlayer() {
         if (moving) {
             if (curY < targetY) {
@@ -126,6 +142,8 @@ public class PlayerAnimation extends JPanel implements ActionListener {
             updatePlayerXY();
         }
     }
+
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
