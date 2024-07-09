@@ -12,10 +12,6 @@ class MainApplication extends JFrame implements KeyListener {
     private JLabel contentpane;
     private PlayerAnimation Wizard;
     private JLabel[] hearts;
-//    private Heart FHeart;
-    // private SpriteAnimation FHeart1;
-    // private SpriteAnimation FHeart2;
-    // private SpriteAnimation FHeart3;
     private int framewidth = MyConstants.FRAMEWIDTH;
     private int frameheight = MyConstants.FRAMEHEIGHT;
     private int groundY = MyConstants.GROUND_Y;
@@ -88,7 +84,7 @@ class MainApplication extends JFrame implements KeyListener {
             }
         }, 0, 100);
 
-        playMusic(3);
+//        playMusic(3);
 
     }
 
@@ -103,6 +99,7 @@ class MainApplication extends JFrame implements KeyListener {
                 Wizard.WizardmoveDown();
                 break;
             case KeyEvent.VK_SPACE:
+                playSE(1);
                 if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50)
                     deployArrowWithCooldown();
                 break;
