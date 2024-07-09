@@ -1,5 +1,6 @@
 package org.example;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -30,7 +31,8 @@ class MainApplication extends JFrame implements KeyListener {
     private ArrayList<SpriteAnimation> slimes;
     private int heartsCount;
     private boolean arrowCooldown = false;
-    private final int arrowCooldownDelay = 500; // 0.5 วิมั้ง
+    private final int arrowCooldownDelay = 450; // 0.45 วิมั้ง
+    Sound sound =new Sound();
 
     public static void main(String[] args) {
         new MainApplication();
@@ -48,6 +50,7 @@ class MainApplication extends JFrame implements KeyListener {
         MyImageIcon background = new MyImageIcon(MyConstants.FILE_BG);
         contentpane.setIcon(background);
         contentpane.setLayout(null);
+
 
 
 //=====================Herb's Test PlyerAnimation Class: plz dont delete these three line==========================
@@ -84,6 +87,9 @@ class MainApplication extends JFrame implements KeyListener {
                 checkSlimesPosition();
             }
         }, 0, 100);
+
+        playMusic(3);
+
     }
 
     @Override
@@ -216,6 +222,18 @@ class MainApplication extends JFrame implements KeyListener {
             contentpane.repaint();
         }
     }
+    public void playMusic(int i) {
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+    public void stopMusic(){
+        sound.stop();
+    }
+    public void playSE(int i){
+        sound.setFile(i);
+        sound.play();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -284,4 +302,5 @@ class CharacterLabel extends BaseLabel {
         }
         updateLocation();
     }
+
 }
