@@ -30,6 +30,7 @@ class MainApplication extends JFrame implements KeyListener {
     private final int arrowCooldownDelay = 450; // 0.45 seconds
     Sound sound = new Sound();
     private Point initialClick;
+    private JLabel bombLabel;
 
     public static void main(String[] args) {
         new MainApplication();
@@ -65,7 +66,7 @@ class MainApplication extends JFrame implements KeyListener {
 
         // Add bomb image to bottom left and make it draggable
         JLabel bombLabel = new JLabel(new MyImageIcon(MyConstants.BOMB).resize(64, 64));
-        bombLabel.setBounds(10, frameheight - 74, 64, 64); // Adjusted position to be bottom left
+        bombLabel.setBounds(10, frameheight - 114, 64, 64); // Adjusted position to be bottom left
         contentpane.add(bombLabel);
 
         bombLabel.addMouseListener(new MouseAdapter() {
@@ -205,9 +206,18 @@ class MainApplication extends JFrame implements KeyListener {
     }
 
     private void Skill() {
+        // Remove bomb if it exists and is visible on the screen
+        if (bombLabel != null && bombLabel.getParent() != null) {
+            contentpane.remove(bombLabel);
+            contentpane.repaint();
+            bombLabel = null; // Remove the bomb label from the content pane
+        }
+
+        // Perform the skill action (lightning attack)
         SkillAnimation skill = new SkillAnimation(MyConstants.LIGHTNING, 640, 64, 10, 100);
         skill.setStartPosition(Wizard.getX() + 80, Wizard.getY() + 30);
 
+        // Check wizard's position to affect slimes accordingly
         if (Wizard.getY() == top_laneY - 50) {
             for (int i = 0; i < slimes.size(); i++) {
                 SpriteAnimation slime = slimes.get(i);
@@ -239,6 +249,51 @@ class MainApplication extends JFrame implements KeyListener {
 
         contentpane.add(skill);
         contentpane.repaint();
+
+        // Schedule the bomb respawn after 5 seconds
+        Timer respawnTimer = new Timer();
+        respawnTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // Create a new bomb label and add mouse listeners
+                bombLabel = new JLabel(new MyImageIcon(MyConstants.BOMB).resize(64, 64));
+                bombLabel.setBounds(10, frameheight - 114, 64, 64);
+                contentpane.add(bombLabel);
+
+                bombLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        initialClick = e.getPoint();
+                        getComponentAt(initialClick);
+                    }
+                });
+
+                bombLabel.addMouseMotionListener(new MouseMotionAdapter() {
+                    @Override
+                    public void mouseDragged(MouseEvent e) {
+                        // Dragging logic
+                        int thisX = bombLabel.getLocation().x;
+                        int thisY = bombLabel.getLocation().y;
+
+                        int xMoved = e.getX() - initialClick.x;
+                        int yMoved = e.getY() - initialClick.y;
+
+                        int X = thisX + xMoved;
+                        int Y = thisY + yMoved;
+                        bombLabel.setLocation(X, Y);
+
+                        // Check if bomb is dragged on top of wizard
+                        if (bombLabel.getBounds().intersects(Wizard.getBounds())) {
+                            Skill(); // Reactivate skill if bomb dragged onto wizard again (optional)
+                            contentpane.remove(bombLabel);
+                            contentpane.repaint();
+                        }
+                    }
+                });
+
+                contentpane.repaint();
+            }
+        }, 5000); // Respawn after 5 seconds (5000 milliseconds)
     }
 
     private void startSlimeGeneration() {
