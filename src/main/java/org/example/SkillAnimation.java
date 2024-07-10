@@ -83,7 +83,11 @@ public class SkillAnimation extends JPanel implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        currentFrame = (currentFrame + 1) % frames.length;
+        if (currentFrame < frames.length - 1) {
+            currentFrame++;
+        } else {
+            stopMovement(); // Stop the animation after the last frame
+        }
         repaint();
     }
 }

@@ -156,9 +156,18 @@ class MainApplication extends JFrame implements KeyListener {
     private void Skill(){
         SkillAnimation skill = new SkillAnimation(MyConstants.LIGHTNING, 640,64,10,100);
         skill.setStartPosition(Wizard.getX()+80, Wizard.getY()+30);
-
+//        if (Wizard.getY()==top_laneY-50){
+//            if(slimes(i).getY()==top_laneY){
+//
+//            }
+//        } else if (Wizard.getY()==middle_laneY-50) {
+//
+//        }else if (Wizard.getY()==bottom_laneY-50) {
+//
+//        }
         contentpane.add(skill);
         contentpane.repaint();
+
     }
 
 
