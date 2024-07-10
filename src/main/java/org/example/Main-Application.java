@@ -156,15 +156,38 @@ class MainApplication extends JFrame implements KeyListener {
     private void Skill(){
         SkillAnimation skill = new SkillAnimation(MyConstants.LIGHTNING, 640,64,10,100);
         skill.setStartPosition(Wizard.getX()+80, Wizard.getY()+30);
-//        if (Wizard.getY()==top_laneY-50){
-//            if(slimes(i).getY()==top_laneY){
-//
-//            }
-//        } else if (Wizard.getY()==middle_laneY-50) {
-//
-//        }else if (Wizard.getY()==bottom_laneY-50) {
-//
-//        }
+
+        if (Wizard.getY() == top_laneY - 50) {
+            for (int i = 0; i < slimes.size(); i++) {
+                SpriteAnimation slime = slimes.get(i);
+                if (slime.getY() >= top_laneY-50 && slime.getY()<=top_laneY+10 ) {
+                    contentpane.remove(slime);
+                    slimes.remove(i);
+                    i--; // Decrement index to account for removed element
+                }
+            }
+        } else if (Wizard.getY() == middle_laneY - 50) {
+            for (int i = 0; i < slimes.size(); i++) {
+                SpriteAnimation slime = slimes.get(i);
+                if (slime.getY() >= middle_laneY-50 && slime.getY()<=middle_laneY+10 ) {
+                    contentpane.remove(slime);
+                    slimes.remove(i);
+                    i--; // Decrement index to account for removed element
+                }
+            }
+        } else if (Wizard.getY() == bottom_laneY - 50) {
+            for (int i = 0; i < slimes.size(); i++) {
+                SpriteAnimation slime = slimes.get(i);
+                if (slime.getY() >= bottom_laneY-50 && slime.getY()<=bottom_laneY+10 ) {
+                    contentpane.remove(slime);
+                    slimes.remove(i);
+                    i--; // Decrement index to account for removed element
+                }
+            }
+        }
+
+
+
         contentpane.add(skill);
         contentpane.repaint();
 
