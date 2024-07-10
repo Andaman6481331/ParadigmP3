@@ -1,6 +1,7 @@
 package org.example;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -28,6 +29,7 @@ class MainApplication extends JFrame implements KeyListener {
     private boolean arrowCooldown = false;
     private final int arrowCooldownDelay = 450; // 0.45 วิมั้ง
     Sound sound = new Sound();
+    private Point initialClick;
 
     public static void main(String[] args) {
         new MainApplication();
@@ -61,10 +63,36 @@ class MainApplication extends JFrame implements KeyListener {
             contentpane.add(hearts[i]);
         }
 
-        // Add bomb image to bottom left
+        // Add bomb image to bottom left and make it draggable
         JLabel bombLabel = new JLabel(new MyImageIcon(MyConstants.BOMB).resize(64, 64));
-        bombLabel.setBounds(10, frameheight - 110, 64, 64); // Adjusted position to be bottom left
+        bombLabel.setBounds(10, frameheight - 74, 64, 64); // Adjusted position to be bottom left
         contentpane.add(bombLabel);
+
+        bombLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                initialClick = e.getPoint();
+                getComponentAt(initialClick);
+            }
+        });
+
+        bombLabel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                // get location of Window
+                int thisX = bombLabel.getLocation().x;
+                int thisY = bombLabel.getLocation().y;
+
+                // Determine how much the mouse moved since the initial click
+                int xMoved = e.getX() - initialClick.x;
+                int yMoved = e.getY() - initialClick.y;
+
+                // Move image to this position
+                int X = thisX + xMoved;
+                int Y = thisY + yMoved;
+                bombLabel.setLocation(X, Y);
+            }
+        });
 
         repaint();
         addKeyListener(this);
