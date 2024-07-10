@@ -27,7 +27,7 @@ class MainApplication extends JFrame implements KeyListener {
     private ArrayList<SpriteAnimation> slimes;
     private int heartsCount;
     private boolean arrowCooldown = false;
-    private final int arrowCooldownDelay = 450; // 0.45 วิมั้ง
+    private final int arrowCooldownDelay = 450; // 0.45 seconds
     Sound sound = new Sound();
     private Point initialClick;
 
@@ -48,13 +48,13 @@ class MainApplication extends JFrame implements KeyListener {
         contentpane.setIcon(background);
         contentpane.setLayout(null);
 
-        //=====================Herb's Test PlyerAnimation Class: plz dont delete these three line==========================
+        // Initialize wizard
         Wizard = new PlayerAnimation(MyConstants.WIZARD, MyConstants.WIZARD_UP, MyConstants.WIZARD_DOWN, MyConstants.WIZARD_SHOOT, 128, 128, 6, 4, 4, 5, 200);
         Wizard.setPlayerStart(playerX, middle_laneY - 50);
         contentpane.add(Wizard);
         repaint();
 
-        // Try change number of hearts on line 57,58 //There is a problem with if too many hearts will create heart image out of the frame try more than 4
+        // Initialize hearts
         hearts = new JLabel[3];
         heartsCount = 3; // Initialize hearts count
         for (int i = 0; i < hearts.length; i++) {
@@ -91,6 +91,13 @@ class MainApplication extends JFrame implements KeyListener {
                 int X = thisX + xMoved;
                 int Y = thisY + yMoved;
                 bombLabel.setLocation(X, Y);
+
+                // Check if bomb is dragged on top of wizard
+                if (bombLabel.getBounds().intersects(Wizard.getBounds())) {
+                    Skill();
+                    contentpane.remove(bombLabel);
+                    contentpane.repaint();
+                }
             }
         });
 
@@ -103,7 +110,7 @@ class MainApplication extends JFrame implements KeyListener {
         // Start generating slimes at random intervals
         startSlimeGeneration();
 
-        // Start a timer to check for collisions and slime postions
+        // Start a timer to check for collisions and slime positions
         Timer collisionTimer = new Timer();
         collisionTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -293,7 +300,6 @@ class MainApplication extends JFrame implements KeyListener {
                 JOptionPane.showMessageDialog(this, "Game Over");
                 new StartMenu().setVisible(true);
                 dispose();
-
             }
             contentpane.repaint();
         }
