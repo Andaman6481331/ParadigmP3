@@ -103,7 +103,7 @@ class MainApplication extends JFrame implements KeyListener {
                 int X = thisX + xMoved;
                 int Y = thisY + yMoved;
                 bombLabel.setLocation(X, Y);
-
+                //check bomb
                 // Check if bomb is dragged on top of wizard
                 if (bombLabel.getBounds().intersects(Wizard.getBounds())) {
                     Skill();
