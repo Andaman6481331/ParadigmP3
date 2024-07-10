@@ -47,6 +47,7 @@ public class SpriteAnimation extends JPanel implements ActionListener {
     }
 
     public int getY() { return curY;}
+    public int getX() { return curX;}
 
     public void setStartPosition(int x, int y) {
         curX = x;

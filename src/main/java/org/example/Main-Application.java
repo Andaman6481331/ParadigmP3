@@ -160,7 +160,7 @@ class MainApplication extends JFrame implements KeyListener {
         if (Wizard.getY() == top_laneY - 50) {
             for (int i = 0; i < slimes.size(); i++) {
                 SpriteAnimation slime = slimes.get(i);
-                if (slime.getY() >= top_laneY-50 && slime.getY()<=top_laneY+10 ) {
+                if (slime.getY() >= top_laneY-50 && slime.getY()<=top_laneY+10  && slime.getX()<=800) {
                     contentpane.remove(slime);
                     slimes.remove(i);
                     i--; // Decrement index to account for removed element
@@ -169,7 +169,7 @@ class MainApplication extends JFrame implements KeyListener {
         } else if (Wizard.getY() == middle_laneY - 50) {
             for (int i = 0; i < slimes.size(); i++) {
                 SpriteAnimation slime = slimes.get(i);
-                if (slime.getY() >= middle_laneY-50 && slime.getY()<=middle_laneY+10 ) {
+                if (slime.getY() >= middle_laneY-50 && slime.getY()<=middle_laneY+10 && slime.getX()<=800) {
                     contentpane.remove(slime);
                     slimes.remove(i);
                     i--; // Decrement index to account for removed element
@@ -178,7 +178,7 @@ class MainApplication extends JFrame implements KeyListener {
         } else if (Wizard.getY() == bottom_laneY - 50) {
             for (int i = 0; i < slimes.size(); i++) {
                 SpriteAnimation slime = slimes.get(i);
-                if (slime.getY() >= bottom_laneY-50 && slime.getY()<=bottom_laneY+10 ) {
+                if (slime.getY() >= bottom_laneY-50 && slime.getY()<=bottom_laneY+10  && slime.getX()<=800) {
                     contentpane.remove(slime);
                     slimes.remove(i);
                     i--; // Decrement index to account for removed element
