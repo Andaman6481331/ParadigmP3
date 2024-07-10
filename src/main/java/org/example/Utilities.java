@@ -21,6 +21,7 @@ interface MyConstants
     static final String FHeart = PATH + "FullHeart.png";
     static final String NHeart = PATH + "NoHeart.png";
     static final String FIREBALL = PATH + "RedBall.png";
+    static final String LIGHTNING = PATH + "Lightning_Beam.png";
 
     //----- Sizes and locations
     static final int FRAMEWIDTH   = 1000;

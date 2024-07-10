@@ -1,6 +1,5 @@
 package org.example;
 
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -64,7 +63,6 @@ class MainApplication extends JFrame implements KeyListener {
             contentpane.add(hearts[i]);
         }
 
-
         repaint();
         addKeyListener(this);
 
@@ -83,9 +81,7 @@ class MainApplication extends JFrame implements KeyListener {
                 checkSlimesPosition();
             }
         }, 0, 100);
-
 //        playMusic(3);
-
     }
 
     @Override
@@ -99,17 +95,20 @@ class MainApplication extends JFrame implements KeyListener {
                 Wizard.WizardmoveDown();
                 break;
             case KeyEvent.VK_SPACE:
-                playSE(1);
                 if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50)
                     deployArrowWithCooldown();
                 break;
+//                playSE(1);
             case KeyEvent.VK_UP:
                 Wizard.WizardmoveUp();
                 break;
             case KeyEvent.VK_DOWN:
                 Wizard.WizardmoveDown();
                 break;
-
+            case KeyEvent.VK_E:
+                if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50)
+                    Skill();
+                break;
         }
     }
 
@@ -154,6 +153,15 @@ class MainApplication extends JFrame implements KeyListener {
         contentpane.repaint();
     }
 
+    private void Skill(){
+        SkillAnimation skill = new SkillAnimation(MyConstants.LIGHTNING, 640,64,10,100);
+        skill.setStartPosition(Wizard.getX()+80, Wizard.getY()+30);
+
+        contentpane.add(skill);
+        contentpane.repaint();
+    }
+
+
     private void startSlimeGeneration() {
         slimeTimer = new Timer();
         scheduleNextSlimeGeneration();
@@ -188,10 +196,10 @@ class MainApplication extends JFrame implements KeyListener {
                         break;
                     }
                 }
-
             }
         }
     }
+
     private void checkSlimesPosition() {
         for (int i = 0; i < slimes.size(); i++) {
             SpriteAnimation slime = slimes.get(i);
