@@ -11,7 +11,10 @@ import java.io.File;
 
 public class SpriteAnimation extends JPanel implements ActionListener {
     private BufferedImage spriteSheet;
+    private BufferedImage popingSheet;
     private BufferedImage[] frames;
+    private BufferedImage[] popframes;
+    private BufferedImage[] currentFrames;
     private int currentFrame;
     private Timer timer;
     private int frameWidth;
@@ -19,8 +22,9 @@ public class SpriteAnimation extends JPanel implements ActionListener {
     private int moveSpeed;
     private int curX, curY;
     private int wallX;
+    private boolean die = false;
 
-    public SpriteAnimation(String spriteSheetPath, int frameWidth, int frameHeight, int numFrames, int delay) {
+    public SpriteAnimation(String spriteSheetPath, String popingSheetPath,int frameWidth, int frameHeight, int numFrames, int numFramesPop,int delay) {
         timer = new Timer(delay, this);
         timer.start();
         this.frameWidth = frameWidth;
@@ -34,8 +38,17 @@ public class SpriteAnimation extends JPanel implements ActionListener {
             for (int i = 0; i < numFrames; i++) {
                 frames[i] = spriteSheet.getSubimage(i * frameWidth, 0, frameWidth, frameHeight);
             }
-            timer = new Timer(delay, this);
-            timer.start();
+
+            popingSheet = ImageIO.read(new File(popingSheetPath));
+            popframes = new BufferedImage[numFramesPop];
+            for (int i = 0; i < numFramesPop; i++) {
+                popframes[i] = popingSheet.getSubimage(i * frameWidth, 0, frameWidth, frameHeight);
+            }
+
+            currentFrames = frames;
+
+//            timer = new Timer(delay, this);
+//            timer.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,7 +58,6 @@ public class SpriteAnimation extends JPanel implements ActionListener {
     public void updateXY() {
         setLocation(curX, curY);
     }
-
     public int getY() { return curY;}
     public int getX() { return curX;}
 
@@ -93,6 +105,15 @@ public class SpriteAnimation extends JPanel implements ActionListener {
         }
     }
 
+    public void die(){
+        if (!die) {
+            die = true;
+            currentFrames = popframes;
+            currentFrame = 0;
+        }
+    }
+
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -104,7 +125,17 @@ public class SpriteAnimation extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        currentFrame = (currentFrame + 1) % frames.length;
+        currentFrame = (currentFrame + 1) % currentFrames.length;
         repaint();
+
+        if (die && currentFrame == currentFrames.length - 1) {
+            // Remove the slime from the parent container after the pop animation ends
+            Container parent = getParent();
+            if (parent != null) {
+                parent.remove(SpriteAnimation.this);
+                parent.repaint();
+            }
+            stopMovement(); // Stop the timer
+        }
     }
 }

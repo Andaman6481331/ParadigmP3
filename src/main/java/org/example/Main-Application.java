@@ -49,7 +49,7 @@ class MainApplication extends JFrame implements KeyListener {
 
 
 //=====================Herb's Test PlyerAnimation Class: plz dont delete these three line==========================
-        Wizard = new PlayerAnimation(MyConstants.WIZARD,MyConstants.WIZARD_UP, MyConstants.WIZARD_DOWN,128,128,6,4,4,500);
+        Wizard = new PlayerAnimation(MyConstants.WIZARD,MyConstants.WIZARD_UP, MyConstants.WIZARD_DOWN, MyConstants.WIZARD_SHOOT,128,128,6,4,4,5,200);
         Wizard.setPlayerStart(playerX,middle_laneY-50);
         contentpane.add(Wizard);
         repaint();
@@ -95,19 +95,28 @@ class MainApplication extends JFrame implements KeyListener {
                 Wizard.WizardmoveDown();
                 break;
             case KeyEvent.VK_SPACE:
-                if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50)
+                if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50){
+                    Wizard.WizardShoot();       //wizard shooting animation
                     deployArrowWithCooldown();
+                }
                 break;
 //                playSE(1);
             case KeyEvent.VK_UP:
-                Wizard.WizardmoveUp();
+                if (Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50) {
+                    Wizard.WizardmoveUp();
+                }
                 break;
             case KeyEvent.VK_DOWN:
-                Wizard.WizardmoveDown();
+                if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50){
+                    Wizard.WizardmoveDown();
+                }
                 break;
             case KeyEvent.VK_E:
-                if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50)
+                if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50){
+                    Wizard.WizardShoot();
                     Skill();
+                }
+
                 break;
         }
     }
@@ -122,7 +131,7 @@ class MainApplication extends JFrame implements KeyListener {
         int[] lanes = {top_laneY, middle_laneY, bottom_laneY};
         int randomLane = lanes[random.nextInt(3)];
 
-        SpriteAnimation slime = new SpriteAnimation(MyConstants.SLIME, MyConstants.slimeWidth, MyConstants.slimeHeight, 10, 200);
+        SpriteAnimation slime = new SpriteAnimation(MyConstants.SLIME, MyConstants.SLIME_POP, MyConstants.slimeWidth, MyConstants.slimeHeight, 10, 7,200);
         slime.setStartPosition(slimeX, randomLane);
         slime.startMovement();
 
@@ -210,27 +219,49 @@ class MainApplication extends JFrame implements KeyListener {
         }, randomDelay);
     }
 
-    private void checkCollisions() {
-        for (int i = 0; i < arrows.size(); i++) {
-            ArrowAnimation arrow = arrows.get(i);
-            for (int j = 0; j < slimes.size(); j++) {
-                SpriteAnimation slime = slimes.get(j);
-                if (arrow.getX()<900){
-                    if (arrow.getBounds().intersects(slime.getBounds())) {
-                        // Remove arrow and slime from content pane and lists
-                        contentpane.remove(arrow);
-                        contentpane.remove(slime);
-                        arrows.remove(i);
-                        slimes.remove(j);
-                        contentpane.repaint();
-                        i--;
-                        j--;
-                        break;
-                    }
+//    private void checkCollisions() {
+//        for (int i = 0; i < arrows.size(); i++) {
+//            ArrowAnimation arrow = arrows.get(i);
+//            for (int j = 0; j < slimes.size(); j++) {
+//                SpriteAnimation slime = slimes.get(j);
+//                if (arrow.getX()<900){
+//                    if (arrow.getBounds().intersects(slime.getBounds())) {
+//                        // Remove arrow and slime from content pane and lists
+//                        contentpane.remove(arrow);
+//                        slime.die();
+////                        contentpane.remove(slime);
+//                        arrows.remove(i);
+//                        slimes.remove(j);
+//                        contentpane.repaint();
+//                        i--;
+//                        j--;
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//    }
+private void checkCollisions() {
+    for (int i = 0; i < arrows.size(); i++) {
+        ArrowAnimation arrow = arrows.get(i);
+        for (int j = 0; j < slimes.size(); j++) {
+            SpriteAnimation slime = slimes.get(j);
+            if (arrow.getX() < 900) {
+                if (arrow.getBounds().intersects(slime.getBounds())) {
+                    // Remove arrow from content pane and list
+                    contentpane.remove(arrow);
+                    arrows.remove(i);
+                    i--;
+                    // Set the slime to die, but do not remove it immediately
+                    slime.die();
+                    contentpane.repaint();
+                    break;
                 }
             }
         }
     }
+}
+
 
     private void checkSlimesPosition() {
         for (int i = 0; i < slimes.size(); i++) {
