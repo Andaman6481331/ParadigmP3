@@ -108,6 +108,7 @@ public class SpriteAnimation extends JPanel implements ActionListener {
     public void die(){
         if (!die) {
             die = true;
+            stopMovement();
             currentFrames = popframes;
             currentFrame = 0;
         }
@@ -117,9 +118,9 @@ public class SpriteAnimation extends JPanel implements ActionListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (frames != null && frames.length > 0) {
+        if (currentFrames != null && currentFrames.length > 0) {
             Graphics2D g2d = (Graphics2D) g;
-            g2d.drawImage(frames[currentFrame], 0, 0, frameWidth, frameHeight, this);
+            g2d.drawImage(currentFrames[currentFrame], 0, 0, frameWidth, frameHeight, this);
         }
     }
 
@@ -128,14 +129,14 @@ public class SpriteAnimation extends JPanel implements ActionListener {
         currentFrame = (currentFrame + 1) % currentFrames.length;
         repaint();
 
-        if (die && currentFrame == currentFrames.length - 1) {
-            // Remove the slime from the parent container after the pop animation ends
+        if (die && currentFrame == currentFrames.length-1) {
             Container parent = getParent();
             if (parent != null) {
                 parent.remove(SpriteAnimation.this);
                 parent.repaint();
             }
-            stopMovement(); // Stop the timer
+
         }
+
     }
 }

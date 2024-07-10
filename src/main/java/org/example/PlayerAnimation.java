@@ -119,7 +119,7 @@ public class PlayerAnimation extends JPanel implements ActionListener {
         if (!shooting) {
             shooting = true;
             currentFrames = shootingFrames;
-            currentFrame = 0; // Reset the frame to start from the beginning of the shooting animation
+//            currentFrame = 0;
         }
     }
 

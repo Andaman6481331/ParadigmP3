@@ -134,8 +134,8 @@ class MainApplication extends JFrame implements KeyListener {
                 break;
             case KeyEvent.VK_SPACE:
                 if (Wizard.getY() == top_laneY - 50 || Wizard.getY() == middle_laneY - 50 || Wizard.getY() == bottom_laneY - 50) {
-                    Wizard.WizardShoot();       // wizard shooting animation
                     deployArrowWithCooldown();
+//                    Wizard.WizardShoot();
                 }
                 break;
 //                playSE(1);
@@ -151,8 +151,8 @@ class MainApplication extends JFrame implements KeyListener {
                 break;
             case KeyEvent.VK_E:
                 if (Wizard.getY() == top_laneY - 50 || Wizard.getY() == middle_laneY - 50 || Wizard.getY() == bottom_laneY - 50) {
-                    Wizard.WizardShoot();
                     Skill();
+//                    Wizard.WizardShoot();
                 }
 
                 break;
@@ -222,7 +222,7 @@ class MainApplication extends JFrame implements KeyListener {
             for (int i = 0; i < slimes.size(); i++) {
                 SpriteAnimation slime = slimes.get(i);
                 if (slime.getY() >= top_laneY - 50 && slime.getY() <= top_laneY + 10 && slime.getX() <= 800) {
-                    contentpane.remove(slime);
+                    slime.die();
                     slimes.remove(i);
                     i--; // Decrement index to account for removed element
                 }
@@ -231,7 +231,7 @@ class MainApplication extends JFrame implements KeyListener {
             for (int i = 0; i < slimes.size(); i++) {
                 SpriteAnimation slime = slimes.get(i);
                 if (slime.getY() >= middle_laneY - 50 && slime.getY() <= middle_laneY + 10 && slime.getX() <= 800) {
-                    contentpane.remove(slime);
+                    slime.die();
                     slimes.remove(i);
                     i--; // Decrement index to account for removed element
                 }
@@ -240,7 +240,7 @@ class MainApplication extends JFrame implements KeyListener {
             for (int i = 0; i < slimes.size(); i++) {
                 SpriteAnimation slime = slimes.get(i);
                 if (slime.getY() >= bottom_laneY - 50 && slime.getY() <= bottom_laneY + 10 && slime.getX() <= 800) {
-                    contentpane.remove(slime);
+                    slime.die();
                     slimes.remove(i);
                     i--; // Decrement index to account for removed element
                 }
@@ -325,6 +325,7 @@ class MainApplication extends JFrame implements KeyListener {
                         i--;
                         // Set the slime to die, but do not remove it immediately
                         slime.die();
+                        slimes.remove(j);
                         contentpane.repaint();
                         break;
                     }
