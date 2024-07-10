@@ -24,6 +24,7 @@ interface MyConstants
     static final String NHeart = PATH + "NoHeart.png";
     static final String FIREBALL = PATH + "RedBall.png";
     static final String LIGHTNING = PATH + "Lightning_Beam.png";
+    static final String BOMB = PATH + "bomb.png";
 
     //----- Sizes and locations
     static final int FRAMEWIDTH   = 1000;
@@ -38,6 +39,7 @@ interface MyConstants
     static final int slimeHeight = 64;
     static final int slimeSpeed = 10;
     static final int wallX = 100;
+
 }
 
 

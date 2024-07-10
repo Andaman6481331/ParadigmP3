@@ -27,7 +27,7 @@ class MainApplication extends JFrame implements KeyListener {
     private int heartsCount;
     private boolean arrowCooldown = false;
     private final int arrowCooldownDelay = 450; // 0.45 วิมั้ง
-    Sound sound =new Sound();
+    Sound sound = new Sound();
 
     public static void main(String[] args) {
         new MainApplication();
@@ -46,22 +46,25 @@ class MainApplication extends JFrame implements KeyListener {
         contentpane.setIcon(background);
         contentpane.setLayout(null);
 
-
-
-//=====================Herb's Test PlyerAnimation Class: plz dont delete these three line==========================
-        Wizard = new PlayerAnimation(MyConstants.WIZARD,MyConstants.WIZARD_UP, MyConstants.WIZARD_DOWN, MyConstants.WIZARD_SHOOT,128,128,6,4,4,5,200);
-        Wizard.setPlayerStart(playerX,middle_laneY-50);
+        //=====================Herb's Test PlyerAnimation Class: plz dont delete these three line==========================
+        Wizard = new PlayerAnimation(MyConstants.WIZARD, MyConstants.WIZARD_UP, MyConstants.WIZARD_DOWN, MyConstants.WIZARD_SHOOT, 128, 128, 6, 4, 4, 5, 200);
+        Wizard.setPlayerStart(playerX, middle_laneY - 50);
         contentpane.add(Wizard);
         repaint();
 
-        //Try change number of hearts on line 57,58 //There is a problem with if too many hearts will create heart image out of the frame try more than 4
+        // Try change number of hearts on line 57,58 //There is a problem with if too many hearts will create heart image out of the frame try more than 4
         hearts = new JLabel[3];
         heartsCount = 3; // Initialize hearts count
         for (int i = 0; i < hearts.length; i++) {
             hearts[i] = new JLabel(new MyImageIcon(MyConstants.FHeart).resize(25, 21));
-            hearts[i].setBounds(850 + (i*30), 20, 25, 21);
+            hearts[i].setBounds(850 + (i * 30), 20, 25, 21);
             contentpane.add(hearts[i]);
         }
+
+        // Add bomb image to bottom left
+        JLabel bombLabel = new JLabel(new MyImageIcon(MyConstants.BOMB).resize(64, 64));
+        bombLabel.setBounds(10, frameheight - 110, 64, 64); // Adjusted position to be bottom left
+        contentpane.add(bombLabel);
 
         repaint();
         addKeyListener(this);
@@ -86,7 +89,6 @@ class MainApplication extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
                 Wizard.WizardmoveUp();
@@ -95,24 +97,24 @@ class MainApplication extends JFrame implements KeyListener {
                 Wizard.WizardmoveDown();
                 break;
             case KeyEvent.VK_SPACE:
-                if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50){
-                    Wizard.WizardShoot();       //wizard shooting animation
+                if (Wizard.getY() == top_laneY - 50 || Wizard.getY() == middle_laneY - 50 || Wizard.getY() == bottom_laneY - 50) {
+                    Wizard.WizardShoot();       // wizard shooting animation
                     deployArrowWithCooldown();
                 }
                 break;
 //                playSE(1);
             case KeyEvent.VK_UP:
-                if (Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50) {
+                if (Wizard.getY() == middle_laneY - 50 || Wizard.getY() == bottom_laneY - 50) {
                     Wizard.WizardmoveUp();
                 }
                 break;
             case KeyEvent.VK_DOWN:
-                if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50){
+                if (Wizard.getY() == top_laneY - 50 || Wizard.getY() == middle_laneY - 50) {
                     Wizard.WizardmoveDown();
                 }
                 break;
             case KeyEvent.VK_E:
-                if (Wizard.getY()==top_laneY-50||Wizard.getY()==middle_laneY-50||Wizard.getY()==bottom_laneY-50){
+                if (Wizard.getY() == top_laneY - 50 || Wizard.getY() == middle_laneY - 50 || Wizard.getY() == bottom_laneY - 50) {
                     Wizard.WizardShoot();
                     Skill();
                 }
@@ -122,16 +124,19 @@ class MainApplication extends JFrame implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+    }
+
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {
+    }
 
     private void initializeSlime() {
         Random random = new Random();
         int[] lanes = {top_laneY, middle_laneY, bottom_laneY};
         int randomLane = lanes[random.nextInt(3)];
 
-        SpriteAnimation slime = new SpriteAnimation(MyConstants.SLIME, MyConstants.SLIME_POP, MyConstants.slimeWidth, MyConstants.slimeHeight, 10, 7,200);
+        SpriteAnimation slime = new SpriteAnimation(MyConstants.SLIME, MyConstants.SLIME_POP, MyConstants.slimeWidth, MyConstants.slimeHeight, 10, 7, 200);
         slime.setStartPosition(slimeX, randomLane);
         slime.startMovement();
 
@@ -139,22 +144,24 @@ class MainApplication extends JFrame implements KeyListener {
         contentpane.add(slime);
         contentpane.repaint();
     }
+
     private void deployArrowWithCooldown() {
-        if (!arrowCooldown){
+        if (!arrowCooldown) {
             deployArrow();
-            arrowCooldown=true;
-            Timer cooldownTimer=new Timer();
+            arrowCooldown = true;
+            Timer cooldownTimer = new Timer();
             cooldownTimer.schedule(new TimerTask() {
                 @Override
-                public void run(){
-                    arrowCooldown=false;
+                public void run() {
+                    arrowCooldown = false;
                 }
-            }, arrowCooldownDelay);}
+            }, arrowCooldownDelay);
+        }
     }
 
     private void deployArrow() {
-        ArrowAnimation arrow = new ArrowAnimation(MyConstants.FIREBALL, 64, 64, 10,100);
-        arrow.setStartPosition(Wizard.getX()+20, Wizard.getY()+30);
+        ArrowAnimation arrow = new ArrowAnimation(MyConstants.FIREBALL, 64, 64, 10, 100);
+        arrow.setStartPosition(Wizard.getX() + 20, Wizard.getY() + 30);
         arrow.startMovement_ARROW();
 
         arrows.add(arrow);
@@ -162,14 +169,14 @@ class MainApplication extends JFrame implements KeyListener {
         contentpane.repaint();
     }
 
-    private void Skill(){
-        SkillAnimation skill = new SkillAnimation(MyConstants.LIGHTNING, 640,64,10,100);
-        skill.setStartPosition(Wizard.getX()+80, Wizard.getY()+30);
+    private void Skill() {
+        SkillAnimation skill = new SkillAnimation(MyConstants.LIGHTNING, 640, 64, 10, 100);
+        skill.setStartPosition(Wizard.getX() + 80, Wizard.getY() + 30);
 
         if (Wizard.getY() == top_laneY - 50) {
             for (int i = 0; i < slimes.size(); i++) {
                 SpriteAnimation slime = slimes.get(i);
-                if (slime.getY() >= top_laneY-50 && slime.getY()<=top_laneY+10  && slime.getX()<=800) {
+                if (slime.getY() >= top_laneY - 50 && slime.getY() <= top_laneY + 10 && slime.getX() <= 800) {
                     contentpane.remove(slime);
                     slimes.remove(i);
                     i--; // Decrement index to account for removed element
@@ -178,7 +185,7 @@ class MainApplication extends JFrame implements KeyListener {
         } else if (Wizard.getY() == middle_laneY - 50) {
             for (int i = 0; i < slimes.size(); i++) {
                 SpriteAnimation slime = slimes.get(i);
-                if (slime.getY() >= middle_laneY-50 && slime.getY()<=middle_laneY+10 && slime.getX()<=800) {
+                if (slime.getY() >= middle_laneY - 50 && slime.getY() <= middle_laneY + 10 && slime.getX() <= 800) {
                     contentpane.remove(slime);
                     slimes.remove(i);
                     i--; // Decrement index to account for removed element
@@ -187,7 +194,7 @@ class MainApplication extends JFrame implements KeyListener {
         } else if (Wizard.getY() == bottom_laneY - 50) {
             for (int i = 0; i < slimes.size(); i++) {
                 SpriteAnimation slime = slimes.get(i);
-                if (slime.getY() >= bottom_laneY-50 && slime.getY()<=bottom_laneY+10  && slime.getX()<=800) {
+                if (slime.getY() >= bottom_laneY - 50 && slime.getY() <= bottom_laneY + 10 && slime.getX() <= 800) {
                     contentpane.remove(slime);
                     slimes.remove(i);
                     i--; // Decrement index to account for removed element
@@ -195,13 +202,9 @@ class MainApplication extends JFrame implements KeyListener {
             }
         }
 
-
-
         contentpane.add(skill);
         contentpane.repaint();
-
     }
-
 
     private void startSlimeGeneration() {
         slimeTimer = new Timer();
@@ -219,49 +222,26 @@ class MainApplication extends JFrame implements KeyListener {
         }, randomDelay);
     }
 
-//    private void checkCollisions() {
-//        for (int i = 0; i < arrows.size(); i++) {
-//            ArrowAnimation arrow = arrows.get(i);
-//            for (int j = 0; j < slimes.size(); j++) {
-//                SpriteAnimation slime = slimes.get(j);
-//                if (arrow.getX()<900){
-//                    if (arrow.getBounds().intersects(slime.getBounds())) {
-//                        // Remove arrow and slime from content pane and lists
-//                        contentpane.remove(arrow);
-//                        slime.die();
-////                        contentpane.remove(slime);
-//                        arrows.remove(i);
-//                        slimes.remove(j);
-//                        contentpane.repaint();
-//                        i--;
-//                        j--;
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//    }
-private void checkCollisions() {
-    for (int i = 0; i < arrows.size(); i++) {
-        ArrowAnimation arrow = arrows.get(i);
-        for (int j = 0; j < slimes.size(); j++) {
-            SpriteAnimation slime = slimes.get(j);
-            if (arrow.getX() < 900) {
-                if (arrow.getBounds().intersects(slime.getBounds())) {
-                    // Remove arrow from content pane and list
-                    contentpane.remove(arrow);
-                    arrows.remove(i);
-                    i--;
-                    // Set the slime to die, but do not remove it immediately
-                    slime.die();
-                    contentpane.repaint();
-                    break;
+    private void checkCollisions() {
+        for (int i = 0; i < arrows.size(); i++) {
+            ArrowAnimation arrow = arrows.get(i);
+            for (int j = 0; j < slimes.size(); j++) {
+                SpriteAnimation slime = slimes.get(j);
+                if (arrow.getX() < 900) {
+                    if (arrow.getBounds().intersects(slime.getBounds())) {
+                        // Remove arrow from content pane and list
+                        contentpane.remove(arrow);
+                        arrows.remove(i);
+                        i--;
+                        // Set the slime to die, but do not remove it immediately
+                        slime.die();
+                        contentpane.repaint();
+                        break;
+                    }
                 }
             }
         }
     }
-}
-
 
     private void checkSlimesPosition() {
         for (int i = 0; i < slimes.size(); i++) {
@@ -285,26 +265,27 @@ private void checkCollisions() {
                 JOptionPane.showMessageDialog(this, "Game Over");
                 new StartMenu().setVisible(true);
                 dispose();
-                
+
             }
             contentpane.repaint();
         }
     }
+
     public void playMusic(int i) {
         sound.setFile(i);
         sound.play();
         sound.loop();
     }
-    public void stopMusic(){
+
+    public void stopMusic() {
         sound.stop();
     }
-    public void playSE(int i){
+
+    public void playSE(int i) {
         sound.setFile(i);
         sound.play();
     }
 }
-
-////////////////////////////////////////////////////////////////////////////////
 abstract class BaseLabel extends JLabel {
     protected MyImageIcon iconMain, iconAlt;
     protected int curX, curY, width, height;
