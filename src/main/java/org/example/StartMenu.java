@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 public class StartMenu extends JFrame implements ActionListener {
     private JButton startButton;
+    private JTextField nameField; // Text field to enter the name
 
     public StartMenu() {
         setTitle("Start Menu");
@@ -16,7 +17,7 @@ public class StartMenu extends JFrame implements ActionListener {
         setLayout(null);
 
         // Top Welcome Text
-        JLabel titleLabel = new JLabel("Slime Slayer!");
+        JLabel titleLabel = new JLabel("Welcome To Slime Slayer!");
         titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
         int labelWidth = titleLabel.getPreferredSize().width;
         int titlex = (getWidth() - labelWidth) / 2;
@@ -26,16 +27,31 @@ public class StartMenu extends JFrame implements ActionListener {
         // Set BoxLayout for vertical alignment
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBounds(50, 70, 300, 200); // Adjust these bounds as needed
-        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Optional: for visual debugging
+        panel.setBounds(50, 70, 300, 450); // Adjust these bounds as needed
+        panel.setOpaque(false); // Make the panel transparent
 
-        // JTextField
-        JTextField textField = new JTextField(20);
-        panel.add(textField);
+        // "Enter your name" Label
+        JLabel nameLabel = new JLabel("Enter your name:");
+        nameLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+        nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+        panel.add(nameLabel);
+
+        // Add vertical spacing
+        panel.add(Box.createVerticalStrut(10));
+
+        // JTextField for name input
+        nameField = new JTextField(20);
+        nameField.setMaximumSize(new Dimension(200, 30));
+        nameField.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the text field
+        panel.add(nameField);
+
+        // Add vertical spacing
+        panel.add(Box.createVerticalStrut(20));
 
         // JRadioButtons aligned horizontally
         JPanel radioButtonPanel = new JPanel();
         radioButtonPanel.setLayout(new FlowLayout());
+        radioButtonPanel.setOpaque(false); // Make the panel transparent
 
         ButtonGroup group = new ButtonGroup();
         JRadioButton radioButton1 = new JRadioButton("Option 1");
@@ -58,15 +74,26 @@ public class StartMenu extends JFrame implements ActionListener {
 
         panel.add(radioButtonPanel);
 
+        // Add vertical spacing
+        panel.add(Box.createVerticalStrut(20));
+
         // JComboBox
         JComboBox<String> comboBox = new JComboBox<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"});
+        comboBox.setMaximumSize(new Dimension(200, 30));
+        comboBox.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the combo box
         panel.add(comboBox);
+
+        // Add vertical spacing
+        panel.add(Box.createVerticalStrut(20));
 
         // JList
         JList<String> list = new JList<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"});
         JScrollPane listScrollPane = new JScrollPane(list);
-        listScrollPane.setPreferredSize(new Dimension(150, 100));
+        listScrollPane.setPreferredSize(new Dimension(200, 100));
         panel.add(listScrollPane);
+
+        // Add vertical spacing
+        panel.add(Box.createVerticalStrut(20));
 
         // Add panel to frame
         add(panel);
@@ -84,7 +111,8 @@ public class StartMenu extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
-            new MainApplication();
+            String playerName = nameField.getText(); // Get the entered name
+            new MainApplication(playerName); // Pass the name to MainApplication
             dispose(); // Close the start menu
         }
     }

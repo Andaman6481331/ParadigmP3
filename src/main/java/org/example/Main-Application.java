@@ -31,12 +31,15 @@ class MainApplication extends JFrame implements KeyListener {
     Sound sound = new Sound();
     private Point initialClick;
     private JLabel bombLabel;
+    private String playerName;
+
 
     public static void main(String[] args) {
-        new MainApplication();
+        new MainApplication("Player");
     }
 
-    public MainApplication() {
+    public MainApplication(String playerName) {
+        this.playerName = playerName;
         setTitle("Slime Slayer69");
         setSize(framewidth, frameheight);
         setLocationRelativeTo(null);
@@ -53,6 +56,14 @@ class MainApplication extends JFrame implements KeyListener {
         Wizard = new PlayerAnimation(MyConstants.WIZARD, MyConstants.WIZARD_UP, MyConstants.WIZARD_DOWN, MyConstants.WIZARD_SHOOT, 128, 128, 6, 4, 4, 5, 200);
         Wizard.setPlayerStart(playerX, middle_laneY - 50);
         contentpane.add(Wizard);
+
+        // Display player name above wizard
+        JLabel nameLabel = new JLabel("Player : " + playerName);
+        nameLabel.setForeground(Color.WHITE);
+        nameLabel.setFont(new Font("Serif", Font.BOLD, 20));
+        nameLabel.setBounds(0,0 , 200, 30); // Adjust the position as needed
+        contentpane.add(nameLabel);
+
         repaint();
 
         // Initialize hearts
@@ -135,10 +146,11 @@ class MainApplication extends JFrame implements KeyListener {
             case KeyEvent.VK_SPACE:
                 if (Wizard.getY() == top_laneY - 50 || Wizard.getY() == middle_laneY - 50 || Wizard.getY() == bottom_laneY - 50) {
                     deployArrowWithCooldown();
+                    playSE(1);
 //                    Wizard.WizardShoot();
                 }
                 break;
-//                playSE(1);
+               
             case KeyEvent.VK_UP:
                 if (Wizard.getY() == middle_laneY - 50 || Wizard.getY() == bottom_laneY - 50) {
                     Wizard.WizardmoveUp();
@@ -212,7 +224,7 @@ class MainApplication extends JFrame implements KeyListener {
             contentpane.repaint();
             bombLabel = null; // Remove the bomb label from the content pane
         }
-
+        playSE(0);
         // Perform the skill action (lightning attack)
         SkillAnimation skill = new SkillAnimation(MyConstants.LIGHTNING, 640, 64, 10, 100);
         skill.setStartPosition(Wizard.getX() + 80, Wizard.getY() + 30);
@@ -342,6 +354,7 @@ class MainApplication extends JFrame implements KeyListener {
                 decreaseHeart();
                 contentpane.remove(slime);
                 slimes.remove(i);
+                // playSE(0);
                 contentpane.repaint();
                 i--;
             }
@@ -350,10 +363,12 @@ class MainApplication extends JFrame implements KeyListener {
 
     private void decreaseHeart() {
         if (heartsCount > 0) {
+            playSE(0);
             heartsCount--;
             hearts[heartsCount].setIcon(new MyImageIcon(MyConstants.NHeart).resize(25, 21));
             if (heartsCount == 0) {
                 JOptionPane.showMessageDialog(this, "Game Over");
+                playSE(2);
                 new StartMenu().setVisible(true);
                 dispose();
             }
@@ -375,6 +390,7 @@ class MainApplication extends JFrame implements KeyListener {
         sound.setFile(i);
         sound.play();
     }
+
 }
 abstract class BaseLabel extends JLabel {
     protected MyImageIcon iconMain, iconAlt;
