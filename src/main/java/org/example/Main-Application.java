@@ -162,11 +162,6 @@ class MainApplication extends JFrame implements KeyListener {
                     Wizard.WizardmoveDown();
                 }
                 break;
-            case KeyEvent.VK_E:
-                if (Wizard.getY() == top_laneY - 50 || Wizard.getY() == middle_laneY - 50 || Wizard.getY() == bottom_laneY - 50) {
-                    Skill();
-//                    Wizard.WizardShoot();
-                }
             case KeyEvent.VK_F:
                 if (Wizard.getY() == top_laneY - 50 || Wizard.getY() == middle_laneY - 50 || Wizard.getY() == bottom_laneY - 50) {
                     SlowSkill();
