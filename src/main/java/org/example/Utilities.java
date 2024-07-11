@@ -27,6 +27,7 @@ interface MyConstants
     static final String LIGHTNING = PATH + "Lightning_Beam.png";
     static final String BOMB = PATH + "YellowBall.png";
     static final String SNOWFLAKE = PATH + "Snowflake.png";
+    static final String SCROLL = PATH + "Scroll.png";
 
     //----- Sizes and locations
     static final int FRAMEWIDTH   = 1000;
