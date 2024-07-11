@@ -42,7 +42,7 @@ class MainApplication extends JFrame implements KeyListener {
     private int timeSet;
 
     public static void main(String[] args) {
-        new MainApplication("Player", 3,5);
+        new MainApplication("Player", 3,30);
     }
 
     public MainApplication(String playerName, int numheart, int timeSet) {
@@ -467,8 +467,9 @@ class MainApplication extends JFrame implements KeyListener {
             if (heartsCount == 0) {
                 JOptionPane.showMessageDialog(this, "Game Over");
 //                playSE(2);
-                new StartMenu().setVisible(true);
-                dispose();
+//                new StartMenu().setVisible(true);
+                gameOver();
+//                dispose();
             }
             contentpane.repaint();
         }
@@ -482,6 +483,7 @@ class MainApplication extends JFrame implements KeyListener {
                 timerLabel.setText("Time: " + timeSet);
                 if (timeSet <= 0) {
                     gameWin();
+//                    dispose();
                 }
             }
         }, 1000, 1000); // Update every second
@@ -501,16 +503,6 @@ class MainApplication extends JFrame implements KeyListener {
         dispose();
     }
 
-//    public void playMusic(int i) {
-//        sound.setFile(i);
-//        sound.play();
-//        sound.loop();
-//    }
-//
-//    public void stopMusic() {
-//        sound.stop();
-//    }
-//
     public void playSE(int i) {
         sound.setFile(i);
         sound.play();

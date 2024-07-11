@@ -197,6 +197,7 @@ public class StartMenu extends JFrame implements ActionListener {
             public void run() {
                 new StartMenu().setVisible(true);
             }
+
         });
     }
 }
