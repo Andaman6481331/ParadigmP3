@@ -310,10 +310,22 @@ class MainApplication extends JFrame implements KeyListener {
     }
 
 
-    private void SlowSkill() {
+    public void SlowSkill() {
         for (SpriteAnimation slime : slimes) {
             slime.setSlowModifier(0.2);
         }
+
+        // Create a new Timer
+        Timer timer = new Timer();
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for (SpriteAnimation slime : slimes) {
+                    slime.setSlowModifier(1);
+                }
+            }
+        }, 5000);
     }
 
     private void startSlimeGeneration() {
