@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 public class StartMenu extends JFrame implements ActionListener {
     private JButton startButton;
     private JTextField nameField; // Text field to enter the name
+    int numOfHearts;
 
     public StartMenu() {
         setTitle("Start Menu");
@@ -48,7 +49,7 @@ public class StartMenu extends JFrame implements ActionListener {
         // Add vertical spacing
         panel.add(Box.createVerticalStrut(10));
 
-        JLabel permitLabel = new JLabel("sdfgs");
+        JLabel permitLabel = new JLabel("Lives");
         permitLabel.setFont(new Font("Serif", Font.PLAIN, 15));
         permitLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
         panel.add(permitLabel);
@@ -59,11 +60,11 @@ public class StartMenu extends JFrame implements ActionListener {
         radioButtonPanel.setOpaque(false); // Make the panel transparent
 
         ButtonGroup group = new ButtonGroup();
-        JRadioButton radioButton1 = new JRadioButton("Option 1");
-        JRadioButton radioButton2 = new JRadioButton("Option 2");
-        JRadioButton radioButton3 = new JRadioButton("Option 3");
-        JRadioButton radioButton4 = new JRadioButton("Option 4");
-        JRadioButton radioButton5 = new JRadioButton("Option 5");
+        JRadioButton radioButton1 = new JRadioButton("1");
+        JRadioButton radioButton2 = new JRadioButton("2");
+        JRadioButton radioButton3 = new JRadioButton("3");
+        JRadioButton radioButton4 = new JRadioButton("4");
+        JRadioButton radioButton5 = new JRadioButton("5");
 
         group.add(radioButton1);
         group.add(radioButton2);
@@ -79,8 +80,44 @@ public class StartMenu extends JFrame implements ActionListener {
 
         panel.add(radioButtonPanel);
 
+        // Create a single ActionListener for all radio buttons
+        ActionListener radioButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JRadioButton source = (JRadioButton) e.getSource();
+                String selectedText = source.getText();
+
+                // Use switch statement to set numOfHearts based on selected text
+                switch (selectedText) {
+                    case "1":
+                        numOfHearts = 1;
+                        break;
+                    case "2":
+                        numOfHearts = 2;
+                        break;
+                    case "3":
+                        numOfHearts = 3;
+                        break;
+                    case "4":
+                        numOfHearts = 4;
+                        break;
+                    case "5":
+                        numOfHearts = 5;
+                        break;
+                }
+            }
+        };
+        // Add the ActionListener to all radio buttons
+        radioButton1.addActionListener(radioButtonListener);
+        radioButton2.addActionListener(radioButtonListener);
+        radioButton3.addActionListener(radioButtonListener);
+        radioButton4.addActionListener(radioButtonListener);
+        radioButton5.addActionListener(radioButtonListener);
+
+
+
         // Add vertical spacing
-        panel.add(Box.createVerticalStrut(10));
+//        panel.add(Box.createVerticalStrut(10));
 
         // JComboBox
         JComboBox<String> comboBox = new JComboBox<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"});
@@ -117,7 +154,10 @@ public class StartMenu extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
             String playerName = nameField.getText(); // Get the entered name
-            new MainApplication(playerName); // Pass the name to MainApplication
+//            new MainApplication(playerName);
+
+            MainApplication mainApp = new MainApplication(playerName, numOfHearts);
+            mainApp.HeartModify(numOfHearts);
             dispose(); // Close the start menu
         }
     }

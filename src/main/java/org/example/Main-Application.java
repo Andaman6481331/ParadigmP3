@@ -34,14 +34,16 @@ class MainApplication extends JFrame implements KeyListener {
     private JLabel bombLabel;
     private JLabel snowflakeLabel;
     private String playerName;
+    private int NumHeart;
 
 
     public static void main(String[] args) {
-        new MainApplication("Player");
+        new MainApplication("Player", 3);
     }
 
-    public MainApplication(String playerName) {
+    public MainApplication(String playerName, int numheart) {
         this.playerName = playerName;
+        this.NumHeart = numheart;
         setTitle("Slime Slayer69");
         setSize(framewidth, frameheight);
         setLocationRelativeTo(null);
@@ -68,11 +70,11 @@ class MainApplication extends JFrame implements KeyListener {
         repaint();
 
         // Initialize hearts
-        hearts = new JLabel[3];
-        heartsCount = 3; // Initialize hearts count
+        hearts = new JLabel[NumHeart];
+        heartsCount = NumHeart; // Initialize hearts count
         for (int i = 0; i < hearts.length; i++) {
             hearts[i] = new JLabel(new MyImageIcon(MyConstants.FHeart).resize(25, 21));
-            hearts[i].setBounds(850 + (i * 30), 20, 25, 21);
+            hearts[i].setBounds(820 + (i * 30), 20, 25, 21);
             contentpane.add(hearts[i]);
         }
 
@@ -216,6 +218,10 @@ class MainApplication extends JFrame implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+    }
+
+    public void HeartModify(int numheart){
+        this.NumHeart = numheart;
     }
 
     private void initializeSlime() {
