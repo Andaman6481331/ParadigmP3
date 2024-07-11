@@ -42,10 +42,10 @@ class MainApplication extends JFrame implements KeyListener {
     private int timeSet;
 
     public static void main(String[] args) {
-        new MainApplication("Player", 3,5);
+        new MainApplication("Player", 3,5, MyConstants.FILE_BG1);
     }
 
-    public MainApplication(String playerName, int numheart, int timeSet) {
+    public MainApplication(String playerName, int numheart, int timeSet, String bg) {
         this.playerName = playerName;
         this.numofheart = numheart;
         this.NumHeart = numheart;
@@ -58,7 +58,7 @@ class MainApplication extends JFrame implements KeyListener {
 
         // set background image by using JLabel as contentpane
         setContentPane(contentpane = new JLabel());
-        MyImageIcon background = new MyImageIcon(MyConstants.FILE_BG1);
+        MyImageIcon background = new MyImageIcon(bg);
         contentpane.setIcon(background);
         contentpane.setLayout(null);
 
