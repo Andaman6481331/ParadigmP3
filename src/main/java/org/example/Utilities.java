@@ -12,7 +12,11 @@ interface MyConstants
     //----- Resource files
     //      Don't forget to change path
     static final String PATH        = "src/main/java/org/example/resources/";
-    static final String FILE_BG     = PATH + "Background.png";
+    static final String FILE_BG1     = PATH + "Background01.png";
+    static final String FILE_BG2     = PATH + "Background02.png";
+    static final String FILE_BG3     = PATH + "Background03.png";
+    static final String FILE_BG4     = PATH + "Background04.png";
+    static final String FILE_BG5     = PATH + "Background05.png";
     static final String PLAYER = PATH + "crossbow.png";
     static final String SLIME = PATH + "Slime01.png";
     static final String SLIME_POP = PATH + "Pop.png";
