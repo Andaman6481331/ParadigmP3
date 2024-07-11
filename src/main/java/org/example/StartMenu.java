@@ -46,7 +46,12 @@ public class StartMenu extends JFrame implements ActionListener {
         panel.add(nameField);
 
         // Add vertical spacing
-        panel.add(Box.createVerticalStrut(20));
+        panel.add(Box.createVerticalStrut(10));
+
+        JLabel permitLabel = new JLabel("sdfgs");
+        permitLabel.setFont(new Font("Serif", Font.PLAIN, 15));
+        permitLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+        panel.add(permitLabel);
 
         // JRadioButtons aligned horizontally
         JPanel radioButtonPanel = new JPanel();
@@ -75,7 +80,7 @@ public class StartMenu extends JFrame implements ActionListener {
         panel.add(radioButtonPanel);
 
         // Add vertical spacing
-        panel.add(Box.createVerticalStrut(20));
+        panel.add(Box.createVerticalStrut(10));
 
         // JComboBox
         JComboBox<String> comboBox = new JComboBox<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"});

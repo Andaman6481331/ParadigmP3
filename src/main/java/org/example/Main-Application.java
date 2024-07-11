@@ -65,7 +65,6 @@ class MainApplication extends JFrame implements KeyListener {
         nameLabel.setFont(new Font("Serif", Font.BOLD, 20));
         nameLabel.setBounds(0,0 , 200, 30); // Adjust the position as needed
         contentpane.add(nameLabel);
-
         repaint();
 
         // Initialize hearts
