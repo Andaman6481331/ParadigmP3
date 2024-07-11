@@ -35,15 +35,12 @@ class MainApplication extends JFrame implements KeyListener {
     private JLabel bombLabel;
     private JLabel snowflakeLabel;
     private String playerName;
-<<<<<<< Updated upstream
     private int numofheart;
 
-=======
     private int NumHeart;
     private Timer countdownTimer;
     private int timeRemaining;
     private int timeSet;
->>>>>>> Stashed changes
 
     public static void main(String[] args) {
         new MainApplication("Player", 3,5);
@@ -51,12 +48,9 @@ class MainApplication extends JFrame implements KeyListener {
 
     public MainApplication(String playerName, int numheart, int timeSet) {
         this.playerName = playerName;
-<<<<<<< Updated upstream
         this.numofheart = numheart;
-=======
         this.NumHeart = numheart;
         this.timeSet = timeSet;
->>>>>>> Stashed changes
         setTitle("Slime Slayer69");
         setSize(framewidth, frameheight);
         setLocationRelativeTo(null);
