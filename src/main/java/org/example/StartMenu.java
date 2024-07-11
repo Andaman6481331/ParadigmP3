@@ -128,10 +128,22 @@ public class StartMenu extends JFrame implements ActionListener {
         // Add vertical spacing
 //        panel.add(Box.createVerticalStrut(10));
 
+        JLabel timeLabel = new JLabel("Time");
+        timeLabel.setFont(new Font("Monospaced", Font.PLAIN, 15));
+        timeLabel.setForeground(Color.WHITE);
+        timeLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+        panel.add(timeLabel);
+
         // JComboBox
-        JComboBox<String> comboBox = new JComboBox<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"});
+        JComboBox<String> comboBox = new JComboBox<>(new String[]{"30", "45", "60", "75", "90"});
+//        comboBox.addActionListener(radioButtonListener);
         comboBox.setMaximumSize(new Dimension(200, 30));
         comboBox.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the combo box
+        comboBox.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            timeSet = Integer.parseInt((String) comboBox.getSelectedItem());
+        }
+    });
         panel.add(comboBox);
 
         // Add vertical spacing
@@ -173,6 +185,7 @@ public class StartMenu extends JFrame implements ActionListener {
 
             MainApplication mainApp = new MainApplication(playerName, numOfHearts,timeSet);
             mainApp.HeartModify(numOfHearts);
+            mainApp.TimerCountdown(timeSet);
 
             dispose(); // Close the start menu
         }

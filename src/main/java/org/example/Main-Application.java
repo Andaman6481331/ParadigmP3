@@ -30,20 +30,16 @@ class MainApplication extends JFrame implements KeyListener {
     private int heartsCount;
     private boolean arrowCooldown = false;
     private final int arrowCooldownDelay = 450; // 0.45 seconds
-//    Sound sound = new Sound();
+    Sound sound = new Sound();
     private Point initialClick;
     private JLabel bombLabel;
     private JLabel snowflakeLabel;
     private String playerName;
-<<<<<<< Updated upstream
     private int numofheart;
-
-=======
     private int NumHeart;
     private Timer countdownTimer;
     private int timeRemaining;
     private int timeSet;
->>>>>>> Stashed changes
 
     public static void main(String[] args) {
         new MainApplication("Player", 3,5);
@@ -51,12 +47,9 @@ class MainApplication extends JFrame implements KeyListener {
 
     public MainApplication(String playerName, int numheart, int timeSet) {
         this.playerName = playerName;
-<<<<<<< Updated upstream
         this.numofheart = numheart;
-=======
         this.NumHeart = numheart;
         this.timeSet = timeSet;
->>>>>>> Stashed changes
         setTitle("Slime Slayer69");
         setSize(framewidth, frameheight);
         setLocationRelativeTo(null);
@@ -210,7 +203,7 @@ class MainApplication extends JFrame implements KeyListener {
             case KeyEvent.VK_SPACE:
                 if (Wizard.getY() == top_laneY - 50 || Wizard.getY() == middle_laneY - 50 || Wizard.getY() == bottom_laneY - 50) {
                     deployArrowWithCooldown();
-//                    playSE(1);
+                    playSE(1);
 //                    Wizard.WizardShoot();
                 }
                 break;
@@ -518,10 +511,10 @@ class MainApplication extends JFrame implements KeyListener {
 //        sound.stop();
 //    }
 //
-//    public void playSE(int i) {
-//        sound.setFile(i);
-//        sound.play();
-//    }
+    public void playSE(int i) {
+        sound.setFile(i);
+        sound.play();
+    }
 
 }
 abstract class BaseLabel extends JLabel {
