@@ -21,6 +21,7 @@ public class SpriteAnimation extends JPanel implements ActionListener {
     private int frameHeight;
     private int moveSpeed;
     private int curX, curY;
+    public double slowModifier ;
     private int wallX;
     private boolean die = false;
 
@@ -31,6 +32,7 @@ public class SpriteAnimation extends JPanel implements ActionListener {
         this.frameHeight = frameHeight;
         this.moveSpeed = MyConstants.slimeSpeed;
         this.wallX = MyConstants.wallX;
+        this.slowModifier = MyConstants.slowparam;
         setOpaque(false);
         try {
             spriteSheet = ImageIO.read(new File(spriteSheetPath));
@@ -61,6 +63,10 @@ public class SpriteAnimation extends JPanel implements ActionListener {
     public int getY() { return curY;}
     public int getX() { return curX;}
 
+    public void setSlowModifier(double slowModifier) {
+        this.slowModifier = slowModifier;
+    }
+
     public void setStartPosition(int x, int y) {
         curX = x;
         curY = y;
@@ -75,15 +81,19 @@ public class SpriteAnimation extends JPanel implements ActionListener {
                 if (curX > wallX) {
                     if (statecount>12){
                         statecount=0;
-                    } else if (statecount>=2 && statecount<=4) {
-                        curY -=moveSpeed*4/3;
-                        curX -= moveSpeed;
-                    } else if (statecount>=5 && statecount<=8) {
-                        curY +=moveSpeed*3/3;
-                        curX -= moveSpeed;
+                    } else if (statecount>=2 && statecount<=5){
+                        curY -=moveSpeed;
+                        curX -= moveSpeed*slowModifier;
+                    } else if (statecount>=6 && statecount<=9) {
+                        curY +=moveSpeed;
+                        curX -= moveSpeed*slowModifier;
                     }
                     statecount++;
                     updateXY();
+
+
+                    //
+                    //
                 } else {
                     // Remove the slime from the parent container and stop the timer
                     Container parent = getParent();
@@ -113,6 +123,7 @@ public class SpriteAnimation extends JPanel implements ActionListener {
             currentFrame = 0;
         }
     }
+
 
 
     @Override

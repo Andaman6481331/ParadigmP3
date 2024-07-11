@@ -22,6 +22,7 @@ class MainApplication extends JFrame implements KeyListener {
     private int slimeX = MyConstants.slimeX;
     private int slimeWidth = MyConstants.slimeWidth;
     private int slimeHeight = MyConstants.slimeHeight;
+    private int slowrate = (int) MyConstants.slowparam;
     private Timer slimeTimer;
     private ArrayList<ArrowAnimation> arrows;
     private ArrayList<SpriteAnimation> slimes;
@@ -166,6 +167,11 @@ class MainApplication extends JFrame implements KeyListener {
                     Skill();
 //                    Wizard.WizardShoot();
                 }
+            case KeyEvent.VK_F:
+                if (Wizard.getY() == top_laneY - 50 || Wizard.getY() == middle_laneY - 50 || Wizard.getY() == bottom_laneY - 50) {
+                    SlowSkill();
+//                    Wizard.WizardShoot();
+                }
 
                 break;
         }
@@ -306,6 +312,13 @@ class MainApplication extends JFrame implements KeyListener {
                 contentpane.repaint();
             }
         }, 5000); // Respawn after 5 seconds (5000 milliseconds)
+    }
+
+
+    private void SlowSkill() {
+        for (SpriteAnimation slime : slimes) {
+            slime.setSlowModifier(0.2);
+        }
     }
 
     private void startSlimeGeneration() {

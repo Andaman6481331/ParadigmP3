@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 // Interface for keeping constant values
 interface MyConstants
 {
+    public double slowparam = 1.0;
     //----- Resource files
     //      Don't forget to change path
     static final String PATH        = "src/main/java/org/example/resources/";
@@ -39,6 +40,7 @@ interface MyConstants
     static final int slimeWidth = 64;
     static final int slimeHeight = 64;
     static final int slimeSpeed = 10;
+
     static final int wallX = 100;
 
 }
