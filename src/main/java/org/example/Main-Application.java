@@ -36,7 +36,6 @@ class MainApplication extends JFrame implements KeyListener {
     private String playerName;
     private int NumHeart;
 
-
     public static void main(String[] args) {
         new MainApplication("Player", 3);
     }

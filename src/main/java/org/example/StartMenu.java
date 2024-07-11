@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 public class StartMenu extends JFrame implements ActionListener {
     private JButton startButton;
     private JTextField nameField; // Text field to enter the name
-    int numOfHearts;
+    int numOfHearts = 3;
 
     public StartMenu() {
         setTitle("Start Menu");
@@ -42,6 +42,7 @@ public class StartMenu extends JFrame implements ActionListener {
 
         // JTextField for name input
         nameField = new JTextField(20);
+        nameField.setText("PlayerName");
         nameField.setMaximumSize(new Dimension(200, 30));
         nameField.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the text field
         panel.add(nameField);
@@ -49,10 +50,10 @@ public class StartMenu extends JFrame implements ActionListener {
         // Add vertical spacing
         panel.add(Box.createVerticalStrut(10));
 
-        JLabel permitLabel = new JLabel("Lives");
-        permitLabel.setFont(new Font("Serif", Font.PLAIN, 15));
-        permitLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
-        panel.add(permitLabel);
+        JLabel livesLabel = new JLabel("Lives");
+        livesLabel.setFont(new Font("Serif", Font.PLAIN, 15));
+        livesLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+        panel.add(livesLabel);
 
         // JRadioButtons aligned horizontally
         JPanel radioButtonPanel = new JPanel();
@@ -114,8 +115,6 @@ public class StartMenu extends JFrame implements ActionListener {
         radioButton4.addActionListener(radioButtonListener);
         radioButton5.addActionListener(radioButtonListener);
 
-
-
         // Add vertical spacing
 //        panel.add(Box.createVerticalStrut(10));
 
@@ -129,6 +128,11 @@ public class StartMenu extends JFrame implements ActionListener {
         panel.add(Box.createVerticalStrut(20));
 
         // JList
+        JLabel mapLabel = new JLabel("Select a Map");
+        mapLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+        mapLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+        panel.add(mapLabel);
+
         JList<String> list = new JList<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"});
         JScrollPane listScrollPane = new JScrollPane(list);
         listScrollPane.setPreferredSize(new Dimension(200, 100));
