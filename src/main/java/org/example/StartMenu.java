@@ -6,20 +6,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StartMenu extends JFrame implements ActionListener {
+    private JLabel contentpane;
     private JButton startButton;
     private JTextField nameField; // Text field to enter the name
     int numOfHearts = 3;
 
     public StartMenu() {
         setTitle("Start Menu");
-        setSize(400, 600);
+        setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
 
+        setContentPane(contentpane = new JLabel());
+        MyImageIcon background = new MyImageIcon(MyConstants.GameMenu);
+        contentpane.setIcon(background);
+        contentpane.setLayout(null);
+
         // Top Welcome Text
         JLabel titleLabel = new JLabel("Welcome To Slime Slayer!");
-        titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
+        titleLabel.setFont(new Font("Monospaced", Font.BOLD, 28));
+        titleLabel.setForeground(Color.WHITE);
         int labelWidth = titleLabel.getPreferredSize().width;
         int titlex = (getWidth() - labelWidth) / 2;
         titleLabel.setBounds(titlex, 20, labelWidth, 30);
@@ -28,12 +35,13 @@ public class StartMenu extends JFrame implements ActionListener {
         // Set BoxLayout for vertical alignment
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBounds(50, 70, 300, 450); // Adjust these bounds as needed
+        panel.setBounds(50, 70, 500, 350); // Adjust these bounds as needed
         panel.setOpaque(false); // Make the panel transparent
 
         // "Enter your name" Label
         JLabel nameLabel = new JLabel("Enter your name:");
-        nameLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+        nameLabel.setFont(new Font("Monospaced", Font.PLAIN, 20));
+        nameLabel.setForeground(Color.WHITE);
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
         panel.add(nameLabel);
 
@@ -51,7 +59,8 @@ public class StartMenu extends JFrame implements ActionListener {
         panel.add(Box.createVerticalStrut(10));
 
         JLabel livesLabel = new JLabel("Lives");
-        livesLabel.setFont(new Font("Serif", Font.PLAIN, 15));
+        livesLabel.setFont(new Font("Monospaced", Font.PLAIN, 15));
+        livesLabel.setForeground(Color.WHITE);
         livesLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
         panel.add(livesLabel);
 
@@ -125,30 +134,31 @@ public class StartMenu extends JFrame implements ActionListener {
         panel.add(comboBox);
 
         // Add vertical spacing
-        panel.add(Box.createVerticalStrut(20));
+        panel.add(Box.createVerticalStrut(10));
 
         // JList
         JLabel mapLabel = new JLabel("Select a Map");
-        mapLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+        mapLabel.setFont(new Font("Monospaced", Font.PLAIN, 20));
+        mapLabel.setForeground(Color.WHITE);
         mapLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
         panel.add(mapLabel);
 
         JList<String> list = new JList<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"});
         JScrollPane listScrollPane = new JScrollPane(list);
-        listScrollPane.setPreferredSize(new Dimension(200, 100));
+        listScrollPane.setPreferredSize(new Dimension(150, 60));
         panel.add(listScrollPane);
 
         // Add vertical spacing
-        panel.add(Box.createVerticalStrut(20));
+        panel.add(Box.createVerticalStrut(10));
 
         // Add panel to frame
         add(panel);
 
         // Start Button
         startButton = new JButton("Start Game");
-        startButton.setFont(new Font("Serif", Font.BOLD, 20));
+        startButton.setFont(new Font("Monospaced", Font.BOLD, 20));
         startButton.addActionListener(this);
-        startButton.setBounds(100, 500, 200, 30);
+        startButton.setBounds(200, 500, 200, 30);
         add(startButton);
 
         setVisible(true);
