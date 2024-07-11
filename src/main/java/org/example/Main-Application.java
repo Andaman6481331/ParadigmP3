@@ -32,6 +32,7 @@ class MainApplication extends JFrame implements KeyListener {
 //    Sound sound = new Sound();
     private Point initialClick;
     private JLabel bombLabel;
+    private JLabel snowflakeLabel;
     private String playerName;
 
 
@@ -114,6 +115,44 @@ class MainApplication extends JFrame implements KeyListener {
             }
         });
 
+        // Add snowflake image to bottom left and make it draggable
+        snowflakeLabel = new JLabel(new MyImageIcon(MyConstants.SNOWFLAKE).resize(64, 64));
+        snowflakeLabel.setBounds(10, frameheight - 174, 64, 64); // Adjusted position to be above bomb
+        contentpane.add(snowflakeLabel);
+
+        snowflakeLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                initialClick = e.getPoint();
+                getComponentAt(initialClick);
+            }
+        });
+
+        snowflakeLabel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                // get location of Window
+                int thisX = snowflakeLabel.getLocation().x;
+                int thisY = snowflakeLabel.getLocation().y;
+
+                // Determine how much the mouse moved since the initial click
+                int xMoved = e.getX() - initialClick.x;
+                int yMoved = e.getY() - initialClick.y;
+
+                // Move image to this position
+                int X = thisX + xMoved;
+                int Y = thisY + yMoved;
+                snowflakeLabel.setLocation(X, Y);
+                //check snowflake
+                // Check if snowflake is dragged on top of wizard
+                if (snowflakeLabel.getBounds().intersects(Wizard.getBounds())) {
+                    SlowSkill();
+                    contentpane.remove(snowflakeLabel);
+                    contentpane.repaint();
+                }
+            }
+        });
+
         repaint();
         addKeyListener(this);
 
@@ -151,7 +190,7 @@ class MainApplication extends JFrame implements KeyListener {
 //                    Wizard.WizardShoot();
                 }
                 break;
-               
+
             case KeyEvent.VK_UP:
                 if (Wizard.getY() == middle_laneY - 50 || Wizard.getY() == bottom_laneY - 50) {
                     Wizard.WizardmoveUp();
@@ -324,6 +363,20 @@ class MainApplication extends JFrame implements KeyListener {
                 for (SpriteAnimation slime : slimes) {
                     slime.setSlowModifier(1);
                 }
+            }
+        }, 5000);
+
+        // Schedule the snowflake label to reappear after 5 seconds
+        Timer snowflakeRespawnTimer = new Timer();
+        snowflakeRespawnTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // Add snowflake label back to the content pane
+                SwingUtilities.invokeLater(() -> {
+                    snowflakeLabel.setBounds(10, frameheight - 174, 64, 64);
+                    contentpane.add(snowflakeLabel);
+                    contentpane.repaint();
+                });
             }
         }, 5000);
     }
