@@ -10,7 +10,7 @@ public class StartMenu extends JFrame implements ActionListener {
     private JButton startButton;
     private JTextField nameField; // Text field to enter the name
     int numOfHearts = 3;
-    int timeSet;
+    int timeSet = 30;
 
     public StartMenu() {
         setTitle("Start Menu");
