@@ -29,7 +29,7 @@ class MainApplication extends JFrame implements KeyListener {
     private int heartsCount;
     private boolean arrowCooldown = false;
     private final int arrowCooldownDelay = 450; // 0.45 seconds
-//    Sound sound = new Sound();
+    Sound sound = new Sound();
     private Point initialClick;
     private JLabel bombLabel;
     private JLabel snowflakeLabel;
@@ -187,7 +187,7 @@ class MainApplication extends JFrame implements KeyListener {
             case KeyEvent.VK_SPACE:
                 if (Wizard.getY() == top_laneY - 50 || Wizard.getY() == middle_laneY - 50 || Wizard.getY() == bottom_laneY - 50) {
                     deployArrowWithCooldown();
-//                    playSE(1);
+                    playSE(1);
 //                    Wizard.WizardShoot();
                 }
                 break;
@@ -454,20 +454,20 @@ class MainApplication extends JFrame implements KeyListener {
         }
     }
 
-//    public void playMusic(int i) {
-//        sound.setFile(i);
-//        sound.play();
-//        sound.loop();
-//    }
-//
-//    public void stopMusic() {
-//        sound.stop();
-//    }
-//
-//    public void playSE(int i) {
-//        sound.setFile(i);
-//        sound.play();
-//    }
+    public void playMusic(int i) {
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic() {
+        sound.stop();
+    }
+
+    public void playSE(int i) {
+        sound.setFile(i);
+        sound.play();
+    }
 
 }
 abstract class BaseLabel extends JLabel {
