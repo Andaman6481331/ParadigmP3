@@ -12,6 +12,7 @@ class MainApplication extends JFrame implements KeyListener {
     private JLabel contentpane;
     private PlayerAnimation Wizard;
     private JLabel[] hearts;
+    private JLabel timerLabel;
     private int framewidth = MyConstants.FRAMEWIDTH;
     private int frameheight = MyConstants.FRAMEHEIGHT;
     private int groundY = MyConstants.GROUND_Y;
@@ -34,16 +35,28 @@ class MainApplication extends JFrame implements KeyListener {
     private JLabel bombLabel;
     private JLabel snowflakeLabel;
     private String playerName;
+<<<<<<< Updated upstream
     private int numofheart;
 
+=======
+    private int NumHeart;
+    private Timer countdownTimer;
+    private int timeRemaining;
+    private int timeSet;
+>>>>>>> Stashed changes
 
     public static void main(String[] args) {
-        new MainApplication("Player", 3);
+        new MainApplication("Player", 3,5);
     }
 
-    public MainApplication(String playerName, int numheart) {
+    public MainApplication(String playerName, int numheart, int timeSet) {
         this.playerName = playerName;
+<<<<<<< Updated upstream
         this.numofheart = numheart;
+=======
+        this.NumHeart = numheart;
+        this.timeSet = timeSet;
+>>>>>>> Stashed changes
         setTitle("Slime Slayer69");
         setSize(framewidth, frameheight);
         setLocationRelativeTo(null);
@@ -67,6 +80,14 @@ class MainApplication extends JFrame implements KeyListener {
         nameLabel.setFont(new Font("Serif", Font.BOLD, 20));
         nameLabel.setBounds(0,0 , 200, 30); // Adjust the position as needed
         contentpane.add(nameLabel);
+
+        // Initialize the timer label
+        timerLabel = new JLabel("Time: " + timeSet);
+        timerLabel.setFont(new Font("Serif", Font.BOLD, 20));
+        timerLabel.setForeground(Color.WHITE); // Set the text color
+        timerLabel.setBounds(450, 20, 200, 30); // Adjust the position as needed
+        contentpane.add(timerLabel);
+
         repaint();
 
         // Initialize hearts
@@ -172,7 +193,9 @@ class MainApplication extends JFrame implements KeyListener {
                 checkSlimesPosition();
             }
         }, 0, 100);
-//        playMusic(3);
+
+        // Start the countdown timer
+        startCountdownTimer();
     }
 
     @Override
@@ -222,6 +245,10 @@ class MainApplication extends JFrame implements KeyListener {
 
     public void HeartModify(int numheart){
         this.numofheart = numheart;
+    }
+
+    public void TimerCountdown(int timeSet){
+        this.timeSet = timeSet;
     }
 
     private void initializeSlime() {
@@ -432,7 +459,7 @@ class MainApplication extends JFrame implements KeyListener {
                 decreaseHeart();
                 contentpane.remove(slime);
                 slimes.remove(i);
-                // playSE(0);
+//                 playSE(0);
                 contentpane.repaint();
                 i--;
             }
@@ -452,6 +479,33 @@ class MainApplication extends JFrame implements KeyListener {
             }
             contentpane.repaint();
         }
+    }
+    private void startCountdownTimer() {
+        countdownTimer = new Timer();
+        countdownTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                timeSet--;
+                timerLabel.setText("Time: " + timeSet);
+                if (timeSet <= 0) {
+                    gameWin();
+                }
+            }
+        }, 1000, 1000); // Update every second
+    }
+
+    private void gameOver() {
+        countdownTimer.cancel();
+        JOptionPane.showMessageDialog(this, "Game Over");
+        new StartMenu().setVisible(true);
+        dispose();
+    }
+
+    private void gameWin() {
+        countdownTimer.cancel();
+        JOptionPane.showMessageDialog(this, "You Win!");
+        new StartMenu().setVisible(true);
+        dispose();
     }
 
 //    public void playMusic(int i) {

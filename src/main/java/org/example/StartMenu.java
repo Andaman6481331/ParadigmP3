@@ -10,6 +10,7 @@ public class StartMenu extends JFrame implements ActionListener {
     private JButton startButton;
     private JTextField nameField; // Text field to enter the name
     int numOfHearts = 3;
+    int timeSet;
 
     public StartMenu() {
         setTitle("Start Menu");
@@ -170,8 +171,9 @@ public class StartMenu extends JFrame implements ActionListener {
             String playerName = nameField.getText(); // Get the entered name
 //            new MainApplication(playerName);
 
-            MainApplication mainApp = new MainApplication(playerName, numOfHearts);
+            MainApplication mainApp = new MainApplication(playerName, numOfHearts,timeSet);
             mainApp.HeartModify(numOfHearts);
+
             dispose(); // Close the start menu
         }
     }
