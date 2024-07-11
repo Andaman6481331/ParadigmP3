@@ -4,13 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class StartMenu extends JFrame implements ActionListener {
     private JLabel contentpane;
     private JButton startButton;
     private JTextField nameField; // Text field to enter the name
+    public String BG = MyConstants.FILE_BG1;
     int numOfHearts = 3;
-    int timeSet;
+    int timeSet = 30;
 
     public StartMenu() {
         setTitle("Start Menu");
@@ -136,7 +139,7 @@ public class StartMenu extends JFrame implements ActionListener {
 
         // JComboBox
         JComboBox<String> comboBox = new JComboBox<>(new String[]{"30", "45", "60", "75", "90"});
-//        comboBox.addActionListener(radioButtonListener);
+//      comboBox.addActionListener(radioButtonListener);
         comboBox.setMaximumSize(new Dimension(200, 30));
         comboBox.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the combo box
         comboBox.addActionListener(new ActionListener() {
@@ -156,16 +159,44 @@ public class StartMenu extends JFrame implements ActionListener {
         mapLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
         panel.add(mapLabel);
 
-        JList<String> list = new JList<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"});
+        JList<String> list = new JList<>(new String[]{"Forest", "Nether", "Warp Forest", "Ender", "BlueWorld"});
         JScrollPane listScrollPane = new JScrollPane(list);
         listScrollPane.setPreferredSize(new Dimension(150, 60));
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        // Add a ListSelectionListener to update the variable background
+        list.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    String selectedValue = list.getSelectedValue();
+                    switch (selectedValue) {
+                        case "Forest":
+                            BG = MyConstants.FILE_BG1;
+                            break;
+                        case "Nether":
+                            BG = MyConstants.FILE_BG2;
+                            break;
+                        case "Warp Forest":
+                            BG = MyConstants.FILE_BG3;
+                            break;
+                        case "Ender":
+                            BG = MyConstants.FILE_BG4;
+                            break;
+                        case "BlueWorld":
+                            BG = MyConstants.FILE_BG5;
+                            break;
+                    }
+                }
+            }
+        });
+
         panel.add(listScrollPane);
 
         // Add vertical spacing
         panel.add(Box.createVerticalStrut(10));
 
-        // Add panel to frame
-        add(panel);
+        // Add panel to contentpane
+        contentpane.add(panel);
 
         // Start Button
         startButton = new JButton("Start Game");
@@ -183,7 +214,7 @@ public class StartMenu extends JFrame implements ActionListener {
             String playerName = nameField.getText(); // Get the entered name
 //            new MainApplication(playerName);
 
-            MainApplication mainApp = new MainApplication(playerName, numOfHearts,timeSet);
+            MainApplication mainApp = new MainApplication(playerName, numOfHearts,timeSet, BG);
             mainApp.HeartModify(numOfHearts);
             mainApp.TimerCountdown(timeSet);
 

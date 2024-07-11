@@ -42,10 +42,10 @@ class MainApplication extends JFrame implements KeyListener {
     private int timeSet;
 
     public static void main(String[] args) {
-        new MainApplication("Player", 3,30);
+        new MainApplication("Player", 3,5, MyConstants.FILE_BG1);
     }
 
-    public MainApplication(String playerName, int numheart, int timeSet) {
+    public MainApplication(String playerName, int numheart, int timeSet, String bg) {
         this.playerName = playerName;
         this.numofheart = numheart;
         this.NumHeart = numheart;
@@ -58,7 +58,7 @@ class MainApplication extends JFrame implements KeyListener {
 
         // set background image by using JLabel as contentpane
         setContentPane(contentpane = new JLabel());
-        MyImageIcon background = new MyImageIcon(MyConstants.FILE_BG1);
+        MyImageIcon background = new MyImageIcon(bg);
         contentpane.setIcon(background);
         contentpane.setLayout(null);
 
@@ -467,9 +467,8 @@ class MainApplication extends JFrame implements KeyListener {
             if (heartsCount == 0) {
                 JOptionPane.showMessageDialog(this, "Game Over");
 //                playSE(2);
-//                new StartMenu().setVisible(true);
-                gameOver();
-//                dispose();
+                new StartMenu().setVisible(true);
+                dispose();
             }
             contentpane.repaint();
         }
@@ -483,7 +482,6 @@ class MainApplication extends JFrame implements KeyListener {
                 timerLabel.setText("Time: " + timeSet);
                 if (timeSet <= 0) {
                     gameWin();
-//                    dispose();
                 }
             }
         }, 1000, 1000); // Update every second
@@ -503,6 +501,16 @@ class MainApplication extends JFrame implements KeyListener {
         dispose();
     }
 
+//    public void playMusic(int i) {
+//        sound.setFile(i);
+//        sound.play();
+//        sound.loop();
+//    }
+//
+//    public void stopMusic() {
+//        sound.stop();
+//    }
+//
     public void playSE(int i) {
         sound.setFile(i);
         sound.play();
