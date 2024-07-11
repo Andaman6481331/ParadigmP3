@@ -28,7 +28,7 @@ class MainApplication extends JFrame implements KeyListener {
     private int heartsCount;
     private boolean arrowCooldown = false;
     private final int arrowCooldownDelay = 450; // 0.45 seconds
-    Sound sound = new Sound();
+//    Sound sound = new Sound();
     private Point initialClick;
     private JLabel bombLabel;
     private String playerName;
@@ -146,7 +146,7 @@ class MainApplication extends JFrame implements KeyListener {
             case KeyEvent.VK_SPACE:
                 if (Wizard.getY() == top_laneY - 50 || Wizard.getY() == middle_laneY - 50 || Wizard.getY() == bottom_laneY - 50) {
                     deployArrowWithCooldown();
-                    playSE(1);
+//                    playSE(1);
 //                    Wizard.WizardShoot();
                 }
                 break;
@@ -224,7 +224,7 @@ class MainApplication extends JFrame implements KeyListener {
             contentpane.repaint();
             bombLabel = null; // Remove the bomb label from the content pane
         }
-        playSE(0);
+//        playSE(0);
         // Perform the skill action (lightning attack)
         SkillAnimation skill = new SkillAnimation(MyConstants.LIGHTNING, 640, 64, 10, 100);
         skill.setStartPosition(Wizard.getX() + 80, Wizard.getY() + 30);
@@ -363,12 +363,12 @@ class MainApplication extends JFrame implements KeyListener {
 
     private void decreaseHeart() {
         if (heartsCount > 0) {
-            playSE(0);
+//            playSE(0);
             heartsCount--;
             hearts[heartsCount].setIcon(new MyImageIcon(MyConstants.NHeart).resize(25, 21));
             if (heartsCount == 0) {
                 JOptionPane.showMessageDialog(this, "Game Over");
-                playSE(2);
+//                playSE(2);
                 new StartMenu().setVisible(true);
                 dispose();
             }
@@ -376,20 +376,20 @@ class MainApplication extends JFrame implements KeyListener {
         }
     }
 
-    public void playMusic(int i) {
-        sound.setFile(i);
-        sound.play();
-        sound.loop();
-    }
-
-    public void stopMusic() {
-        sound.stop();
-    }
-
-    public void playSE(int i) {
-        sound.setFile(i);
-        sound.play();
-    }
+//    public void playMusic(int i) {
+//        sound.setFile(i);
+//        sound.play();
+//        sound.loop();
+//    }
+//
+//    public void stopMusic() {
+//        sound.stop();
+//    }
+//
+//    public void playSE(int i) {
+//        sound.setFile(i);
+//        sound.play();
+//    }
 
 }
 abstract class BaseLabel extends JLabel {
