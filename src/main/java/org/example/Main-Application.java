@@ -31,10 +31,8 @@ class MainApplication extends JFrame implements KeyListener {
     private final int arrowCooldownDelay = 450; // 0.45 seconds
 //    Sound sound = new Sound();
     private Point initialClick;
-    private JLabel scrollLabel;
     private JLabel bombLabel;
     private JLabel snowflakeLabel;
-
     private String playerName;
 
 
@@ -56,11 +54,6 @@ class MainApplication extends JFrame implements KeyListener {
         contentpane.setIcon(background);
         contentpane.setLayout(null);
 
-//        scrollLabel = new JLabel(new MyImageIcon(MyConstants.SCROLL).resize(64, 128));
-//        scrollLabel.setBounds(10, frameheight - 174, 64, 128);
-//        contentpane.add(scrollLabel);
-//        setVisible(true);
-
         // Initialize wizard
         Wizard = new PlayerAnimation(MyConstants.WIZARD, MyConstants.WIZARD_UP, MyConstants.WIZARD_DOWN, MyConstants.WIZARD_SHOOT, 128, 128, 6, 4, 4, 5, 200);
         Wizard.setPlayerStart(playerX, middle_laneY - 50);
@@ -78,14 +71,14 @@ class MainApplication extends JFrame implements KeyListener {
         hearts = new JLabel[3];
         heartsCount = 3; // Initialize hearts count
         for (int i = 0; i < hearts.length; i++) {
-            hearts[i] = new JLabel(new MyImageIcon(MyConstants.FHeart));
+            hearts[i] = new JLabel(new MyImageIcon(MyConstants.FHeart).resize(25, 21));
             hearts[i].setBounds(850 + (i * 30), 20, 25, 21);
             contentpane.add(hearts[i]);
         }
 
         // Add bomb image to bottom left and make it draggable
         JLabel bombLabel = new JLabel(new MyImageIcon(MyConstants.BOMB).resize(64, 64));
-        bombLabel.setBounds(23, frameheight - 133, 64, 64); // Adjusted position to be bottom left
+        bombLabel.setBounds(10, frameheight - 114, 64, 64); // Adjusted position to be bottom left
         contentpane.add(bombLabel);
 
         bombLabel.addMouseListener(new MouseAdapter() {
@@ -123,7 +116,7 @@ class MainApplication extends JFrame implements KeyListener {
 
         // Add snowflake image to bottom left and make it draggable
         snowflakeLabel = new JLabel(new MyImageIcon(MyConstants.SNOWFLAKE).resize(64, 64));
-        snowflakeLabel.setBounds(21, frameheight - 187, 64, 64);
+        snowflakeLabel.setBounds(10, frameheight - 174, 64, 64); // Adjusted position to be above bomb
         contentpane.add(snowflakeLabel);
 
         snowflakeLabel.addMouseListener(new MouseAdapter() {
@@ -315,7 +308,7 @@ class MainApplication extends JFrame implements KeyListener {
             public void run() {
                 // Create a new bomb label and add mouse listeners
                 bombLabel = new JLabel(new MyImageIcon(MyConstants.BOMB).resize(64, 64));
-                bombLabel.setBounds(23, frameheight - 133, 64, 64);
+                bombLabel.setBounds(10, frameheight - 114, 64, 64);
                 contentpane.add(bombLabel);
 
                 bombLabel.addMouseListener(new MouseAdapter() {
@@ -379,7 +372,7 @@ class MainApplication extends JFrame implements KeyListener {
             public void run() {
                 // Add snowflake label back to the content pane
                 SwingUtilities.invokeLater(() -> {
-                    snowflakeLabel.setBounds(21, frameheight - 187, 64, 64);
+                    snowflakeLabel.setBounds(10, frameheight - 174, 64, 64);
                     contentpane.add(snowflakeLabel);
                     contentpane.repaint();
                 });
