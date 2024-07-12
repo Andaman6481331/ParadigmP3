@@ -13,7 +13,7 @@ public class Sound {
     URL[] soundURL = new URL[30];
 
     public Sound() {
-        soundURL[0] = getClass().getResource(path + "Explode.wav"); //change .mp3 to .wav
+        soundURL[0] = getClass().getResource(path + "Explode.wav");
         soundURL[1] = getClass().getResource(path + "Fireball.wav");
         soundURL[2] = getClass().getResource(path + "GameOver.wav");
         soundURL[3] = getClass().getResource(path + "Song.wav");

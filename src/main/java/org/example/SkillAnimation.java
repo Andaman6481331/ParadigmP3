@@ -56,8 +56,7 @@ public class SkillAnimation extends JPanel implements ActionListener {
                     curX += moveSpeed*1.5;
                     updateXY();
                 } else {
-                    // Remove the slime from the parent container and stop the timer
-                    stopMovement(); // Stop the timer
+                    stopMovement();
                     Container parent = getParent();
                     if (parent != null) {
                         parent.remove(SkillAnimation.this);
@@ -86,7 +85,7 @@ public class SkillAnimation extends JPanel implements ActionListener {
         if (currentFrame < frames.length - 1) {
             currentFrame++;
         } else {
-            stopMovement(); // Stop the animation after the last frame
+            stopMovement(); // stop the animation after the last frame
         }
         repaint();
     }

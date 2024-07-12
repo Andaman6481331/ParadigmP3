@@ -1,4 +1,4 @@
-// Don't forget to rename the package
+
 package org.example;
 
 import java.awt.Image;
@@ -52,7 +52,7 @@ interface MyConstants
 }
 
 
-// Auxiliary class to resize image
+// class to resize image
 class MyImageIcon extends ImageIcon
 {
     public MyImageIcon(String fname)  { super(fname); }

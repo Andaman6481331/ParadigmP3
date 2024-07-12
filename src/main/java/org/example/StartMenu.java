@@ -27,7 +27,7 @@ public class StartMenu extends JFrame implements ActionListener {
         contentpane.setIcon(background);
         contentpane.setLayout(null);
 
-        // Top Welcome Text
+
         JLabel titleLabel = new JLabel("Welcome To Slime Slayer!");
         titleLabel.setFont(new Font("Monospaced", Font.BOLD, 28));
         titleLabel.setForeground(Color.WHITE);
@@ -36,42 +36,42 @@ public class StartMenu extends JFrame implements ActionListener {
         titleLabel.setBounds(titlex, 20, labelWidth, 30);
         add(titleLabel);
 
-        // Set BoxLayout for vertical alignment
+
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBounds(50, 70, 500, 350); // Adjust these bounds as needed
-        panel.setOpaque(false); // Make the panel transparent
+        panel.setBounds(50, 70, 500, 350);
+        panel.setOpaque(false);
 
-        // "Enter your name" Label
+
         JLabel nameLabel = new JLabel("Enter your name:");
         nameLabel.setFont(new Font("Monospaced", Font.PLAIN, 20));
         nameLabel.setForeground(Color.WHITE);
-        nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+        nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(nameLabel);
 
-        // Add vertical spacing
+
         panel.add(Box.createVerticalStrut(10));
 
-        // JTextField for name input
+
         nameField = new JTextField(20);
         nameField.setText("PlayerName");
         nameField.setMaximumSize(new Dimension(200, 30));
         nameField.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the text field
         panel.add(nameField);
 
-        // Add vertical spacing
+
         panel.add(Box.createVerticalStrut(10));
 
         JLabel livesLabel = new JLabel("Lives");
         livesLabel.setFont(new Font("Monospaced", Font.PLAIN, 15));
         livesLabel.setForeground(Color.WHITE);
-        livesLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+        livesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(livesLabel);
 
-        // JRadioButtons aligned horizontally
+
         JPanel radioButtonPanel = new JPanel();
         radioButtonPanel.setLayout(new FlowLayout());
-        radioButtonPanel.setOpaque(false); // Make the panel transparent
+        radioButtonPanel.setOpaque(false);
 
         ButtonGroup group = new ButtonGroup();
         JRadioButton radioButton1 = new JRadioButton("1");
@@ -94,14 +94,12 @@ public class StartMenu extends JFrame implements ActionListener {
 
         panel.add(radioButtonPanel);
 
-        // Create a single ActionListener for all radio buttons
         ActionListener radioButtonListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JRadioButton source = (JRadioButton) e.getSource();
                 String selectedText = source.getText();
 
-                // Use switch statement to set numOfHearts based on selected text
                 switch (selectedText) {
                     case "1":
                         numOfHearts = 1;
@@ -121,15 +119,14 @@ public class StartMenu extends JFrame implements ActionListener {
                 }
             }
         };
-        // Add the ActionListener to all radio buttons
+
         radioButton1.addActionListener(radioButtonListener);
         radioButton2.addActionListener(radioButtonListener);
         radioButton3.addActionListener(radioButtonListener);
         radioButton4.addActionListener(radioButtonListener);
         radioButton5.addActionListener(radioButtonListener);
 
-        // Add vertical spacing
-//        panel.add(Box.createVerticalStrut(10));
+
 
         JLabel timeLabel = new JLabel("Time");
         timeLabel.setFont(new Font("Monospaced", Font.PLAIN, 15));
@@ -137,9 +134,7 @@ public class StartMenu extends JFrame implements ActionListener {
         timeLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
         panel.add(timeLabel);
 
-        // JComboBox
         JComboBox<String> comboBox = new JComboBox<>(new String[]{"30", "45", "60", "75", "90"});
-//      comboBox.addActionListener(radioButtonListener);
         comboBox.setMaximumSize(new Dimension(200, 30));
         comboBox.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the combo box
         comboBox.addActionListener(new ActionListener() {
@@ -149,21 +144,19 @@ public class StartMenu extends JFrame implements ActionListener {
     });
         panel.add(comboBox);
 
-        // Add vertical spacing
         panel.add(Box.createVerticalStrut(10));
 
-        // JList
+
         JLabel mapLabel = new JLabel("Select a Map");
         mapLabel.setFont(new Font("Monospaced", Font.PLAIN, 20));
         mapLabel.setForeground(Color.WHITE);
-        mapLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+        mapLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(mapLabel);
 
         JList<String> list = new JList<>(new String[]{"Forest", "Nether", "Warp Forest", "Ender", "BlueWorld"});
         JScrollPane listScrollPane = new JScrollPane(list);
         listScrollPane.setPreferredSize(new Dimension(150, 60));
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        // Add a ListSelectionListener to update the variable background
         list.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -192,13 +185,10 @@ public class StartMenu extends JFrame implements ActionListener {
 
         panel.add(listScrollPane);
 
-        // Add vertical spacing
         panel.add(Box.createVerticalStrut(10));
 
-        // Add panel to contentpane
         contentpane.add(panel);
 
-        // Start Button
         startButton = new JButton("Start Game");
         startButton.setFont(new Font("Monospaced", Font.BOLD, 20));
         startButton.addActionListener(this);
@@ -211,14 +201,13 @@ public class StartMenu extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
-            String playerName = nameField.getText(); // Get the entered name
-//            new MainApplication(playerName);
+            String playerName = nameField.getText();
 
             MainApplication mainApp = new MainApplication(playerName, numOfHearts,timeSet, BG);
             mainApp.HeartModify(numOfHearts);
             mainApp.TimerCountdown(timeSet);
 
-            dispose(); // Close the start menu
+            dispose();
         }
     }
 

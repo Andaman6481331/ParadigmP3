@@ -47,14 +47,14 @@ public class PlayerAnimation extends JPanel implements ActionListener {
                 idleFrames[i] = idleSpriteSheet.getSubimage(i * frameWidth, 0, frameWidth, frameHeight);
             }
 
-            // Load moving up sprite sheet and frames
+
             movingUpSpriteSheet = ImageIO.read(new File(movingUpSpriteSheetPath));
             movingUpFrames = new BufferedImage[numFramesMovingUp];
             for (int i = 0; i < numFramesMovingUp; i++) {
                 movingUpFrames[i] = movingUpSpriteSheet.getSubimage(i * frameWidth, 0, frameWidth, frameHeight);
             }
 
-            // Load moving down sprite sheet and frames
+
             movingDownSpriteSheet = ImageIO.read(new File(movingDownSpriteSheetPath));
             movingDownFrames = new BufferedImage[numFramesMovingDown];
             for (int i = 0; i < numFramesMovingDown; i++) {
@@ -72,7 +72,7 @@ public class PlayerAnimation extends JPanel implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // Initialize movement timer
+
         movementTimer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

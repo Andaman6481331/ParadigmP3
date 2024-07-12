@@ -95,13 +95,13 @@ public class SpriteAnimation extends JPanel implements ActionListener {
                     //
                     //
                 } else {
-                    // Remove the slime from the parent container and stop the timer
+                    // remove slime from the parent container and stop the timer
                     Container parent = getParent();
                     if (parent != null) {
                         parent.remove(SpriteAnimation.this);
                         parent.repaint();
                     }
-                    stopMovement(); // Stop the timer
+                    stopMovement();
                 }
             }
         });

@@ -21,9 +21,6 @@ class MainApplication extends JFrame implements KeyListener {
     private int bottom_laneY = MyConstants.BOTTOM_LANE;
     private int playerX = MyConstants.playerX;
     private int slimeX = MyConstants.slimeX;
-    private int slimeWidth = MyConstants.slimeWidth;
-    private int slimeHeight = MyConstants.slimeHeight;
-    private int slowrate = (int) MyConstants.slowparam;
     private Timer slimeTimer;
     private ArrayList<ArrowAnimation> arrows;
     private ArrayList<SpriteAnimation> slimes;
@@ -38,11 +35,10 @@ class MainApplication extends JFrame implements KeyListener {
     private int numofheart;
     private int NumHeart;
     private Timer countdownTimer;
-    private int timeRemaining;
     private int timeSet;
 
     public static void main(String[] args) {
-        new MainApplication("Player", 3,5, MyConstants.FILE_BG1);
+        new MainApplication("Player", 3,30, MyConstants.FILE_BG1);
     }
 
     public MainApplication(String playerName, int numheart, int timeSet, String bg) {
@@ -56,25 +52,22 @@ class MainApplication extends JFrame implements KeyListener {
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        // set background image by using JLabel as contentpane
+
         setContentPane(contentpane = new JLabel());
         MyImageIcon background = new MyImageIcon(bg);
         contentpane.setIcon(background);
         contentpane.setLayout(null);
 
-        // Initialize wizard
         Wizard = new PlayerAnimation(MyConstants.WIZARD, MyConstants.WIZARD_UP, MyConstants.WIZARD_DOWN, MyConstants.WIZARD_SHOOT, 128, 128, 6, 4, 4, 5, 200);
         Wizard.setPlayerStart(playerX, middle_laneY - 50);
         contentpane.add(Wizard);
 
-        // Display player name above wizard
         JLabel nameLabel = new JLabel("Player : " + playerName);
         nameLabel.setForeground(Color.WHITE);
         nameLabel.setFont(new Font("Serif", Font.BOLD, 20));
         nameLabel.setBounds(0,0 , 200, 30); // Adjust the position as needed
         contentpane.add(nameLabel);
 
-        // Initialize the timer label
         timerLabel = new JLabel("Time: " + timeSet);
         timerLabel.setFont(new Font("Serif", Font.BOLD, 20));
         timerLabel.setForeground(Color.WHITE); // Set the text color
@@ -83,7 +76,6 @@ class MainApplication extends JFrame implements KeyListener {
 
         repaint();
 
-        // Initialize hearts
         hearts = new JLabel[numofheart];
         heartsCount = numofheart; // Initialize hearts count
         for (int i = 0; i < hearts.length; i++) {
@@ -92,7 +84,6 @@ class MainApplication extends JFrame implements KeyListener {
             contentpane.add(hearts[i]);
         }
 
-        // Add bomb image to bottom left and make it draggable
         JLabel bombLabel = new JLabel(new MyImageIcon(MyConstants.BOMB).resize(64, 64));
         bombLabel.setBounds(23, frameheight - 133, 64, 64); // Adjusted position to be bottom left
         contentpane.add(bombLabel);
@@ -108,20 +99,17 @@ class MainApplication extends JFrame implements KeyListener {
         bombLabel.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                // get location of Window
                 int thisX = bombLabel.getLocation().x;
                 int thisY = bombLabel.getLocation().y;
 
-                // Determine how much the mouse moved since the initial click
                 int xMoved = e.getX() - initialClick.x;
                 int yMoved = e.getY() - initialClick.y;
 
-                // Move image to this position
                 int X = thisX + xMoved;
                 int Y = thisY + yMoved;
                 bombLabel.setLocation(X, Y);
                 //check bomb
-                // Check if bomb is dragged on top of wizard
+
                 if (bombLabel.getBounds().intersects(Wizard.getBounds())) {
                     Skill();
                     contentpane.remove(bombLabel);
@@ -130,7 +118,6 @@ class MainApplication extends JFrame implements KeyListener {
             }
         });
 
-        // Add snowflake image to bottom left and make it draggable
         snowflakeLabel = new JLabel(new MyImageIcon(MyConstants.SNOWFLAKE).resize(64, 64));
         snowflakeLabel.setBounds(21, frameheight - 187, 64, 64); // Adjusted position to be above bomb
         contentpane.add(snowflakeLabel);
@@ -146,20 +133,16 @@ class MainApplication extends JFrame implements KeyListener {
         snowflakeLabel.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                // get location of Window
                 int thisX = snowflakeLabel.getLocation().x;
                 int thisY = snowflakeLabel.getLocation().y;
 
-                // Determine how much the mouse moved since the initial click
                 int xMoved = e.getX() - initialClick.x;
                 int yMoved = e.getY() - initialClick.y;
 
-                // Move image to this position
                 int X = thisX + xMoved;
                 int Y = thisY + yMoved;
                 snowflakeLabel.setLocation(X, Y);
                 //check snowflake
-                // Check if snowflake is dragged on top of wizard
                 if (snowflakeLabel.getBounds().intersects(Wizard.getBounds())) {
                     SlowSkill();
                     contentpane.remove(snowflakeLabel);
@@ -174,10 +157,8 @@ class MainApplication extends JFrame implements KeyListener {
         arrows = new ArrayList<>();
         slimes = new ArrayList<>();
 
-        // Start generating slimes at random intervals
         startSlimeGeneration();
 
-        // Start a timer to check for collisions and slime positions
         Timer collisionTimer = new Timer();
         collisionTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -187,7 +168,6 @@ class MainApplication extends JFrame implements KeyListener {
             }
         }, 0, 100);
 
-        // Start the countdown timer
         startCountdownTimer();
     }
 
@@ -283,25 +263,21 @@ class MainApplication extends JFrame implements KeyListener {
     }
 
     private void Skill() {
-        // Remove bomb if it exists and is visible on the screen
         if (bombLabel != null && bombLabel.getParent() != null) {
             contentpane.remove(bombLabel);
             contentpane.repaint();
-            bombLabel = null; // Remove the bomb label from the content pane
+            bombLabel = null;
         }
-//        playSE(0);
-        // Perform the skill action (lightning attack)
         SkillAnimation skill = new SkillAnimation(MyConstants.LIGHTNING, 640, 64, 10, 100);
         skill.setStartPosition(Wizard.getX() + 80, Wizard.getY() + 30);
 
-        // Check wizard's position to affect slimes accordingly
         if (Wizard.getY() == top_laneY - 50) {
             for (int i = 0; i < slimes.size(); i++) {
                 SpriteAnimation slime = slimes.get(i);
                 if (slime.getY() >= top_laneY - 50 && slime.getY() <= top_laneY + 10 && slime.getX() <= 800) {
                     slime.die();
                     slimes.remove(i);
-                    i--; // Decrement index to account for removed element
+                    i--;
                 }
             }
         } else if (Wizard.getY() == middle_laneY - 50) {
@@ -310,7 +286,7 @@ class MainApplication extends JFrame implements KeyListener {
                 if (slime.getY() >= middle_laneY - 50 && slime.getY() <= middle_laneY + 10 && slime.getX() <= 800) {
                     slime.die();
                     slimes.remove(i);
-                    i--; // Decrement index to account for removed element
+                    i--;
                 }
             }
         } else if (Wizard.getY() == bottom_laneY - 50) {
@@ -319,7 +295,7 @@ class MainApplication extends JFrame implements KeyListener {
                 if (slime.getY() >= bottom_laneY - 50 && slime.getY() <= bottom_laneY + 10 && slime.getX() <= 800) {
                     slime.die();
                     slimes.remove(i);
-                    i--; // Decrement index to account for removed element
+                    i--;
                 }
             }
         }
@@ -327,12 +303,10 @@ class MainApplication extends JFrame implements KeyListener {
         contentpane.add(skill);
         contentpane.repaint();
 
-        // Schedule the bomb respawn after 5 seconds
         Timer respawnTimer = new Timer();
         respawnTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                // Create a new bomb label and add mouse listeners
                 bombLabel = new JLabel(new MyImageIcon(MyConstants.BOMB).resize(64, 64));
                 bombLabel.setBounds(23, frameheight - 133, 64, 64);
                 contentpane.add(bombLabel);
@@ -348,7 +322,7 @@ class MainApplication extends JFrame implements KeyListener {
                 bombLabel.addMouseMotionListener(new MouseMotionAdapter() {
                     @Override
                     public void mouseDragged(MouseEvent e) {
-                        // Dragging logic
+
                         int thisX = bombLabel.getLocation().x;
                         int thisY = bombLabel.getLocation().y;
 
@@ -359,9 +333,8 @@ class MainApplication extends JFrame implements KeyListener {
                         int Y = thisY + yMoved;
                         bombLabel.setLocation(X, Y);
 
-                        // Check if bomb is dragged on top of wizard
                         if (bombLabel.getBounds().intersects(Wizard.getBounds())) {
-                            Skill(); // Reactivate skill if bomb dragged onto wizard again (optional)
+                            Skill(); // Reactivate skill if bomb dragged onto wizard again
                             contentpane.remove(bombLabel);
                             contentpane.repaint();
                         }
@@ -370,7 +343,7 @@ class MainApplication extends JFrame implements KeyListener {
 
                 contentpane.repaint();
             }
-        }, 5000); // Respawn after 5 seconds (5000 milliseconds)
+        }, 5000); // Respawn after 5 seconds
     }
 
 
@@ -379,7 +352,7 @@ class MainApplication extends JFrame implements KeyListener {
             slime.setSlowModifier(0.2);
         }
 
-        // Create a new Timer
+
         Timer timer = new Timer();
 
         timer.schedule(new TimerTask() {
@@ -391,12 +364,10 @@ class MainApplication extends JFrame implements KeyListener {
             }
         }, 5000);
 
-        // Schedule the snowflake label to reappear after 5 seconds
         Timer snowflakeRespawnTimer = new Timer();
         snowflakeRespawnTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                // Add snowflake label back to the content pane
                 SwingUtilities.invokeLater(() -> {
                     snowflakeLabel.setBounds(21, frameheight - 187, 64, 64);
                     contentpane.add(snowflakeLabel);
@@ -429,11 +400,9 @@ class MainApplication extends JFrame implements KeyListener {
                 SpriteAnimation slime = slimes.get(j);
                 if (arrow.getX() < 900) {
                     if (arrow.getBounds().intersects(slime.getBounds())) {
-                        // Remove arrow from content pane and list
                         contentpane.remove(arrow);
                         arrows.remove(i);
                         i--;
-                        // Set the slime to die, but do not remove it immediately
                         slime.die();
                         slimes.remove(j);
                         contentpane.repaint();
@@ -452,7 +421,6 @@ class MainApplication extends JFrame implements KeyListener {
                 decreaseHeart();
                 contentpane.remove(slime);
                 slimes.remove(i);
-//                 playSE(0);
                 contentpane.repaint();
                 i--;
             }
@@ -501,16 +469,6 @@ class MainApplication extends JFrame implements KeyListener {
         dispose();
     }
 
-//    public void playMusic(int i) {
-//        sound.setFile(i);
-//        sound.play();
-//        sound.loop();
-//    }
-//
-//    public void stopMusic() {
-//        sound.stop();
-//    }
-//
     public void playSE(int i) {
         sound.setFile(i);
         sound.play();
@@ -523,7 +481,6 @@ abstract class BaseLabel extends JLabel {
     protected boolean horizontalMove, verticalMove;
     protected MainApplication parentFrame;
 
-    // Constructors
     public BaseLabel(String file1, int w, int h, MainApplication pf) {
         width = w;
         height = h;
@@ -539,7 +496,6 @@ abstract class BaseLabel extends JLabel {
         iconAlt = new MyImageIcon(file2).resize(width, height);
     }
 
-    // Common methods
     public void setMoveConditions(boolean hm, boolean vm) {
         horizontalMove = hm;
         verticalMove = vm;
