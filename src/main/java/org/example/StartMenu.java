@@ -56,7 +56,7 @@ public class StartMenu extends JFrame implements ActionListener {
         nameField = new JTextField(20);
         nameField.setText("PlayerName");
         nameField.setMaximumSize(new Dimension(200, 30));
-        nameField.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the text field
+        nameField.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(nameField);
 
 
@@ -131,12 +131,12 @@ public class StartMenu extends JFrame implements ActionListener {
         JLabel timeLabel = new JLabel("Time");
         timeLabel.setFont(new Font("Monospaced", Font.PLAIN, 15));
         timeLabel.setForeground(Color.WHITE);
-        timeLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+        timeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(timeLabel);
 
         JComboBox<String> comboBox = new JComboBox<>(new String[]{"30", "45", "60", "75", "90"});
         comboBox.setMaximumSize(new Dimension(200, 30));
-        comboBox.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the combo box
+        comboBox.setAlignmentX(Component.CENTER_ALIGNMENT);
         comboBox.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             timeSet = Integer.parseInt((String) comboBox.getSelectedItem());
@@ -188,6 +188,34 @@ public class StartMenu extends JFrame implements ActionListener {
         panel.add(Box.createVerticalStrut(10));
 
         contentpane.add(panel);
+
+        JLabel student1 = new JLabel("Puriwat Tanansumrit 6380315\n");
+        student1.setBounds(100,100,40,40);
+        student1.setFont(new Font("Monospaced", Font.PLAIN, 15));
+        student1.setForeground(Color.WHITE);
+        student1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(student1);
+
+        JLabel student2 = new JLabel("Andaman Jamprasitsakul 6481331\n");
+        student2.setBounds(100,100,40,40);
+        student2.setFont(new Font("Monospaced", Font.PLAIN, 15));
+        student2.setForeground(Color.WHITE);
+        student2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(student2);
+
+        JLabel student3 = new JLabel("Charupat Trakulchang 6481176\n");
+        student3.setBounds(100,100,40,40);
+        student3.setFont(new Font("Monospaced", Font.PLAIN, 15));
+        student3.setForeground(Color.WHITE);
+        student3.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(student3);
+
+        JLabel student4 = new JLabel("Chalantorn Sawangwongchinsri 6580873\n");
+        student4.setBounds(100,100,40,40);
+        student4.setFont(new Font("Monospaced", Font.PLAIN, 15));
+        student4.setForeground(Color.WHITE);
+        student4.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(student4);
 
         startButton = new JButton("Start Game");
         startButton.setFont(new Font("Monospaced", Font.BOLD, 20));

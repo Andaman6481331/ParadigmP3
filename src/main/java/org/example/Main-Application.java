@@ -15,7 +15,6 @@ class MainApplication extends JFrame implements KeyListener {
     private JLabel timerLabel;
     private int framewidth = MyConstants.FRAMEWIDTH;
     private int frameheight = MyConstants.FRAMEHEIGHT;
-    private int groundY = MyConstants.GROUND_Y;
     private int top_laneY = MyConstants.TOP_LANE;
     private int middle_laneY = MyConstants.MIDDLE_LANE;
     private int bottom_laneY = MyConstants.BOTTOM_LANE;
@@ -77,7 +76,7 @@ class MainApplication extends JFrame implements KeyListener {
         repaint();
 
         hearts = new JLabel[numofheart];
-        heartsCount = numofheart; // Initialize hearts count
+        heartsCount = numofheart; // hearts count
         for (int i = 0; i < hearts.length; i++) {
             hearts[i] = new JLabel(new MyImageIcon(MyConstants.FHeart).resize(25, 21));
             hearts[i].setBounds(830 + (i * 30), 20, 25, 21);
